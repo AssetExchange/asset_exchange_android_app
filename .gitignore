@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.iml
 .gradle
 /local.properties
@@ -16,6 +17,32 @@ local.properties
 
 output.json
 
+=======
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+>>>>>>> 567acb128f68c0c3eaffaa381a76f3e1ecf7778c
 # Keystore files
 *.jks
 *.keystore
@@ -24,4 +51,8 @@ output.json
 google-services.json
 
 # Android Profiling
+<<<<<<< HEAD
 *.hprof
+=======
+*.hprof
+>>>>>>> 567acb128f68c0c3eaffaa381a76f3e1ecf7778c
