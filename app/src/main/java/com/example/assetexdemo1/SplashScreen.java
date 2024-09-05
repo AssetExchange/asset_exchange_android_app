@@ -42,7 +42,7 @@ public class SplashScreen extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 finish();
             }
-        }, 2000);
+        }, 1000);
 
 
     }
