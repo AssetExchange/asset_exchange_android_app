@@ -14,6 +14,7 @@
     <color name="colorOnboardingButtonBackgroundDisabled">#666666</color>
     <color name="colorOnboardingButtonBackgroundEnabled">#F8523C</color>
     <color name="colorOnboardingButtonForeground">#F6F6F6</color>
+    <color name="colorOnboardingLink">#F44E1C</color>
 
 
 </resources>
