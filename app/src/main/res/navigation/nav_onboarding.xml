@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_onboarding"
+    app:startDestination="@id/onboardingEmailFragment">
+
+    <fragment
+        android:id="@+id/onboardingEmailFragment"
+        android:name="com.example.assetexdemo1.OnboardingEmailFragment"
+        android:label="fragment_onboarding_email"
+        tools:layout="@layout/fragment_onboarding_email" >
+        <action
+            android:id="@+id/action_onboardingEmailFragment_to_onboardingEmailPasswordFragment"
+            app:destination="@id/onboardingEmailPasswordFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/onboardingEmailPasswordFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingEmailPasswordFragment"
+        android:name="com.example.assetexdemo1.OnboardingEmailPasswordFragment"
+        android:label="fragment_onboarding_email_password"
+        tools:layout="@layout/fragment_onboarding_email_password" />
+</navigation>

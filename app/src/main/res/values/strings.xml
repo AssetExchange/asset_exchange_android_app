@@ -9,6 +9,6 @@
     <string name="bottom_nav_menu_profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
     <string name="onboarding_disclaimer_text">By signing up, you are creating a AssetEx. account and agree to AssetEx’s <a href="https://www.google.com">Terms</a> and <a href="https://www.google.com">Privacy Policy</a>.</string>
 </resources>

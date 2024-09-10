@@ -8,6 +8,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class OnboardingActivity extends AppCompatActivity {
 
@@ -24,9 +26,8 @@ public class OnboardingActivity extends AppCompatActivity {
 
         OnboardingEmailFragment onboardingEmailFragment = new OnboardingEmailFragment();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.activity_onboarding_frame, onboardingEmailFragment);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.activity_onboarding, onboardingEmailFragment);
 
         fragmentTransaction.commit();
-
     }
 }
