@@ -1,10 +1,5 @@
 package com.example.assetexdemo1;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,14 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OnboardingEmailFragment#newInstance} factory method to
+ * Use the {@link OnboardingFullNameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OnboardingEmailFragment extends Fragment {
+public class OnboardingFullNameFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +24,7 @@ public class OnboardingEmailFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OnboardingEmailFragment() {
+    public OnboardingFullNameFragment() {
         // Required empty public constructor
     }
 
@@ -40,13 +34,12 @@ public class OnboardingEmailFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OnboardingEmailFragment.
+     * @return A new instance of fragment OnBoardingFullNameFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OnboardingEmailFragment newInstance(String param1, String param2) {
-        OnboardingEmailFragment fragment = new OnboardingEmailFragment();
+    public static OnboardingFullNameFragment newInstance(String param1, String param2) {
+        OnboardingFullNameFragment fragment = new OnboardingFullNameFragment();
         Bundle args = new Bundle();
-
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -66,26 +59,6 @@ public class OnboardingEmailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        return inflater.inflate(R.layout.fragment_onboarding_email, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (this.getView() != null) {
-            Button continueButton = this.getView().findViewById(R.id.fOEcontinueButton);
-
-            continueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
-                    // startActivity(intent);
-                    NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
-                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
-                }
-            });
-        }
+        return inflater.inflate(R.layout.fragment_on_boarding_full_name, container, false);
     }
 }
