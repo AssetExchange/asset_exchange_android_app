@@ -22,7 +22,7 @@ public class DBHelper {
     private static final String URL = "http://192.168.1.3/demo/fetch_data.php";
 
     public static void fetchData(Context context, final OnDataReceivedListener listener) {
-        StringRequest request = new StringRequest(Request.Method.GET, URL, new Response.Listener <String> () {
+        StringRequest request = new CachingStringRequest(Request.Method.GET, URL, new Response.Listener <String> () {
                 @Override
                 public void onResponse(String response) {
                     try {
@@ -63,7 +63,7 @@ public class DBHelper {
     }
 
     public static void updateData(Context context, LoadsModel model) {
-        StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String> () {
+        StringRequest request = new CachingStringRequest(Request.Method.POST, URL, new Response.Listener<String> () {
             @Override
             public void onResponse(String response) {
                 System.out.println(response);

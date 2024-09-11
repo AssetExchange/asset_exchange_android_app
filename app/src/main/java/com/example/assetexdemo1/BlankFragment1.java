@@ -89,12 +89,12 @@ public class BlankFragment1 extends Fragment {
 
         loadsRV.setAdapter(loadsAdapter);
 
-//        DBHelper.fetchData(this.getContext(), new DBHelper.OnDataReceivedListener() {
-//            @Override
-//            public void onDataReceived(Context context, List<LoadsModel> dataList) {
-//                LoadsAdapter adapterDB = new LoadsAdapter(context, (ArrayList<LoadsModel>) dataList);
-//                loadsRV.setAdapter(adapterDB);
-//            }
-//        });
+        DBHelper.fetchData(this.getContext(), new DBHelper.OnDataReceivedListener() {
+            @Override
+            public void onDataReceived(Context context, List<LoadsModel> dataList) {
+                LoadsAdapter adapterDB = new LoadsAdapter(context, (ArrayList<LoadsModel>) dataList);
+                loadsRV.setAdapter(adapterDB);
+            }
+        });
     }
 }

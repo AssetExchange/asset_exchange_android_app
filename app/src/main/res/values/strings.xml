@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AssetExDemo1</string>
+    <string name="app_name">Asset Exchange</string>
     <string name="project_overview">Project Overview</string>
     <string name="bottom_nav_menu_command">Command</string>
     <string name="bottom_nav_menu_feather">Feather</string>
