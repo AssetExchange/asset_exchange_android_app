@@ -176,7 +176,5 @@ public class ScreenSlidePagesActivity extends AppCompatActivity {
         public int getItemCount() {
             return NUM_PAGES;
         }
-
-        @Override
     }
 }
