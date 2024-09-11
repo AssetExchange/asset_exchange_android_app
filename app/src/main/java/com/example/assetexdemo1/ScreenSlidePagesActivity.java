@@ -28,6 +28,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ScreenSlidePagesActivity extends AppCompatActivity {
@@ -69,6 +70,18 @@ public class ScreenSlidePagesActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
+
+        firestoreDB.collection("assets").whereEqualTo("task_id", firestoreDB.document("tasks/1")).limit(3).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                        // System.out.println(documentSnapshot.getDocumentReference("task_id").getParent());
+                    }
+                    System.out.println();
+                }
+            }
+        });
 
 //        firestoreDB.collection("assets").whereEqualTo("user_id", 1).get(Source.CACHE).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //            @Override
@@ -163,5 +176,7 @@ public class ScreenSlidePagesActivity extends AppCompatActivity {
         public int getItemCount() {
             return NUM_PAGES;
         }
+
+        @Override
     }
 }

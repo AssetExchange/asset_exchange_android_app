@@ -105,27 +105,27 @@ public class ScreenSlidePageFragment extends Fragment {
         // storageRef.getReferenceFromUrl("gs://assetexchange1-ff23a.appspot.com/995e457534b67e7afec11568127db10f-320-80.jpg")
         StorageReference imageRef = storageRef.child("995e457534b67e7afec11568127db10f-320-80.jpg");
 
-        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                ImageView imageView = new ImageView(getContext());
-                imageView.setBackgroundResource(R.drawable.rounded_card);
-
-                imageView.setMaxWidth(300);
-
-                screenSlideFragmentContainer.addView(imageView);
-
-                Glide.with(getView())
-                    .load(uri)
-                    //.fitCenter()
-                    .into(imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+//        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                ImageView imageView = new ImageView(getContext());
+//                imageView.setBackgroundResource(R.drawable.rounded_card);
+//
+//                imageView.setMaxWidth(300);
+//
+//                screenSlideFragmentContainer.addView(imageView);
+//
+//                Glide.with(getView())
+//                    .load(uri)
+//                    //.fitCenter()
+//                    .into(imageView);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
 
     }
 }
