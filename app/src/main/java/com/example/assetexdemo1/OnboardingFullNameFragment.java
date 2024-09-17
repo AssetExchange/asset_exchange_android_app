@@ -1,12 +1,20 @@
 package com.example.assetexdemo1;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +31,13 @@ public class OnboardingFullNameFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    EditText fOFnameEditText;
+    AppCompatButton fOFcontinueButton;
+    Button fOFbackButton;
+    String email = "";
+    String fullName = "";
 
     public OnboardingFullNameFragment() {
         // Required empty public constructor
@@ -59,6 +74,64 @@ public class OnboardingFullNameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_on_boarding_full_name, container, false);
+        return inflater.inflate(R.layout.fragment_onboarding_full_name, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (this.getView() != null) {
+            fOFnameEditText = getView().findViewById(R.id.fOFnameEditText);
+            fOFcontinueButton = getView().findViewById(R.id.fOFcontinueButton);
+            fOFbackButton = getView().findViewById(R.id.fOFbackButton);
+
+            NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
+
+            fOFnameEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().trim().isEmpty()) {
+                        fOFcontinueButton.setClickable(true);
+                        fOFcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundEnabled, null)));
+                    }
+                    else {
+                        fOFcontinueButton.setClickable(false);
+                        fOFcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundDisabled, null)));
+                    }
+                    fullName = s.toString().trim();
+                }
+            });
+
+            fOFcontinueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!fullName.trim().isEmpty()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", getArguments().getString("email"));
+                        bundle.putString("full_name", fullName);
+
+                        navController.navigate(R.id.action_onboardingFullNameFragment_to_onboardingSignupPasswordFragment, bundle);
+                    }
+                }
+            });
+
+            fOFbackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navController.popBackStack();
+                }
+            });
+        }
     }
 }

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OnboardingPickRoleFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="36dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/fOPRbackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="back" />
+
+            <TextView
+                android:id="@+id/fOPRPwelcomeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Pick your role"
+                android:textColor="#222222"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="42dp"
+                android:text="Pick only one role to continue"
+                android:textAlignment="center"
+                android:textColor="#939393" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Roles who contains projects"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="12dp"
+                android:background="#C9C9C9" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:enabled="true"
+                    android:minHeight="36dp"
+                    android:text="UI/UX Designer"
+                    android:textAllCaps="false"
+                    android:textSize="11sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:checkable="true"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Graphic Designer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Video Editor"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Social Media Manager"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Web Designer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Frontend Dev"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Backend Dev"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Freelancer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:enabled="false"
+                    android:minHeight="36dp"
+                    android:text="Project Manager"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="fOPRroleButton,fOPRroleButton1,fOPRroleButton2,fOPRroleButton3,fOPRroleButton4,fOPRroleButton5,fOPRroleButton6,fOPRroleButton7,fOPRroleButton8"
+                    app:flow_horizontalBias="0"
+                    app:flow_horizontalGap="10dp"
+                    app:flow_horizontalStyle="packed"
+                    app:flow_verticalBias="0"
+                    app:flow_verticalGap="12dp"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/fOPRcontinueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_input"
+                android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/colorOnboardingButtonForeground" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

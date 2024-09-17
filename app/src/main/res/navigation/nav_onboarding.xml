@@ -13,13 +13,40 @@
         <action
             android:id="@+id/action_onboardingEmailFragment_to_onboardingEmailPasswordFragment"
             app:destination="@id/onboardingEmailPasswordFragment"
-            app:launchSingleTop="false"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/onboardingEmailPasswordFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_onboardingEmailFragment_to_onboardingFullNameFragment"
+            app:destination="@id/onboardingFullNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingEmailPasswordFragment"
         android:name="com.example.assetexdemo1.OnboardingEmailPasswordFragment"
         android:label="fragment_onboarding_email_password"
         tools:layout="@layout/fragment_onboarding_email_password" />
+    <fragment
+        android:id="@+id/onboardingFullNameFragment"
+        android:name="com.example.assetexdemo1.OnboardingFullNameFragment"
+        android:label="fragment_onboarding_full_name"
+        tools:layout="@layout/fragment_onboarding_full_name" >
+        <action
+            android:id="@+id/action_onboardingFullNameFragment_to_onboardingSignupPasswordFragment"
+            app:destination="@id/onboardingSignupPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingSignupPasswordFragment"
+        android:name="com.example.assetexdemo1.OnboardingSignupPasswordFragment"
+        android:label="fragment_onboarding_signup_password"
+        tools:layout="@layout/fragment_onboarding_signup_password" >
+        <action
+            android:id="@+id/action_onboardingSignupPasswordFragment_to_onboardingPickRoleFragment"
+            app:destination="@id/onboardingPickRoleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingPickRoleFragment"
+        android:name="com.example.assetexdemo1.OnboardingPickRoleFragment"
+        android:label="fragment_onboarding_pick_role"
+        tools:layout="@layout/fragment_onboarding_pick_role" />
 </navigation>

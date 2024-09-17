@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/fOFbackButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="back" />
@@ -35,7 +35,7 @@
                 android:layout_marginBottom="18dp"
                 android:text="What should we call you?"
                 android:textColor="#222222"
-                android:textSize="22sp"
+                android:textSize="26sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/rounded_input"
-                android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
+                android:backgroundTint="@color/colorOnboardingButtonBackgroundDisabled"
                 android:text="Continue"
                 android:textAllCaps="false"
                 android:textColor="@color/colorOnboardingButtonForeground" />

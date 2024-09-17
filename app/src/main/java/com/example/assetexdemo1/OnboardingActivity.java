@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 
 public class OnboardingActivity extends AppCompatActivity {
 
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +25,12 @@ public class OnboardingActivity extends AppCompatActivity {
             return insets;
         });
 
-        OnboardingEmailFragment onboardingEmailFragment = new OnboardingEmailFragment();
+//        OnboardingEmailFragment onboardingEmailFragment = new OnboardingEmailFragment();
+//
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.activity_onboarding, OnboardingEmailFragment.class, null); // onboardingEmailFragment
+//
+//        fragmentTransaction.commit();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.activity_onboarding, onboardingEmailFragment);
-
-        fragmentTransaction.commit();
+//        navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
     }
 }

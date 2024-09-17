@@ -1,18 +1,24 @@
 package com.example.assetexdemo1;
 
-import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.json.JSONArray;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +31,10 @@ public class OnboardingEmailFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    EditText fOEemailEditText;
+    AppCompatButton fOEcontinueButton;
+    String email = "";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,15 +85,70 @@ public class OnboardingEmailFragment extends Fragment {
         super.onResume();
 
         if (this.getView() != null) {
-            Button continueButton = this.getView().findViewById(R.id.fOEcontinueButton);
+//            Button continueButton = this.getView().findViewById(R.id.fOEcontinueButton);
 
-            continueButton.setOnClickListener(new View.OnClickListener() {
+            fOEemailEditText = getView().findViewById(R.id.fOEemailEditText);
+            fOEcontinueButton = getView().findViewById(R.id.fOEcontinueButton);
+
+            fOEemailEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    System.out.println(s.toString() + CustomInputValidation.validateEmail(s.toString().trim()));
+                    if (CustomInputValidation.validateEmail(s.toString().trim())) {
+                        fOEcontinueButton.setClickable(true);
+                        fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundEnabled, null)));
+                        email = s.toString().trim();
+                    }
+                    else {
+                        fOEcontinueButton.setClickable(false);
+                        fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundDisabled, null)));
+                    }
+                }
+            });
+            fOEcontinueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
                     // startActivity(intent);
+
                     NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
-                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
+//                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
+
+                    if (CustomInputValidation.validateEmail(email)) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", email);
+
+                        DBConn.getRequest(
+                                DBConn.getRecordURL("users?filter=email,eq," + email + "&include=user_id,email"),
+                                getContext(),
+                                new DBConn.ResponseCallback() {
+                                    @Override
+                                    public void innerResponse(Object object) {
+                                        JSONArray jsonArray = (JSONArray) object;
+                                        // If one user with such email exists
+                                        if (!jsonArray.isNull(0) && jsonArray.length() == 1) {
+                                            navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment, bundle);
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "Creating new account...", Toast.LENGTH_SHORT).show();
+                                            navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingFullNameFragment, bundle);
+                                        }
+                                    }
+                                },
+                                "Unable to connect to the database",
+                                "Unable to parse API response"
+                        );
+                    }
                 }
             });
         }

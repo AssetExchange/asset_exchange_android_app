@@ -16,5 +16,9 @@
     <color name="colorOnboardingButtonForeground">#F6F6F6</color>
     <color name="colorOnboardingLink">#F44E1C</color>
 
+    <color name="colorOnboardingPasswordHintGray">#878787</color>
+    <color name="colorOnboardingPasswordHintRed">#B13F29</color>
+    <color name="colorOnboardingPasswordHintGreen">#29B152</color>
+
 
 </resources>

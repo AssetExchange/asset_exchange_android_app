@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/rounded_input"
-                android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
+                android:backgroundTint="@color/colorOnboardingButtonBackgroundDisabled"
                 android:text="Continue"
                 android:textAllCaps="false"
                 android:textColor="@color/colorOnboardingButtonForeground" />
@@ -69,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:text="or"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/fOEcontinueGoogleButton"
@@ -79,7 +80,8 @@
                 android:background="@drawable/rounded_input_button_stroke"
                 android:enabled="false"
                 android:text="Continue with Google"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fOEneedHelpTV"
