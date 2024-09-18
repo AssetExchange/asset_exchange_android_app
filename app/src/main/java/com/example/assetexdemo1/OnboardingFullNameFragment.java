@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +36,7 @@ public class OnboardingFullNameFragment extends Fragment {
 
     EditText fOFnameEditText;
     AppCompatButton fOFcontinueButton;
-    Button fOFbackButton;
+    ImageButton fOFbackButton;
     String email = "";
     String fullName = "";
 

@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class DBConn {
-    public static String connectionHost = "http://192.168.1.3/demo/";
+    public static String connectionHost = "http://192.168.1.3/demo/"; // 192.168.43.72
 
     public static String getURL(String path) {
         return connectionHost + path;

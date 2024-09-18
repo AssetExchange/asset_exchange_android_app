@@ -68,45 +68,32 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/fOPRroleButton"
+                    android:id="@+id/fOPRroleButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:textColor="@color/role_button_text_colorstatelist"
-                    android:enabled="true"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
                     android:text="UI/UX Designer"
                     android:textAllCaps="false"
-                    android:textSize="11sp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:checkable="true"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/fOPRroleButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_role_button_stroke"
-                    android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
-                    android:minHeight="36dp"
-                    android:text="Graphic Designer"
-                    android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
-                    android:textSize="11sp" />
+                    android:textSize="11sp">
+                    <requestFocus />
+                </androidx.appcompat.widget.AppCompatButton>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/fOPRroleButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
-                    android:text="Video Editor"
+                    android:text="Graphic Designer"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -118,9 +105,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
                     android:minHeight="36dp"
-                    android:text="Social Media Manager"
+                    android:focusableInTouchMode="true"
+                    android:text="Video Editor"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -132,9 +119,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
-                    android:text="Web Designer"
+                    android:text="Social Media Manager"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -146,9 +133,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
-                    android:text="Frontend Dev"
+                    android:text="Web Designer"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -160,9 +147,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
-                    android:text="Backend Dev"
+                    android:text="Frontend Dev"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -174,9 +161,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
-                    android:text="Freelancer"
+                    android:text="Backend Dev"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -188,9 +175,37 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_role_button_stroke"
                     android:backgroundTint="@color/role_button_bg_colorstatelist"
-                    android:enabled="false"
+                    android:focusableInTouchMode="true"
+                    android:minHeight="36dp"
+                    android:text="Freelancer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:focusableInTouchMode="true"
                     android:minHeight="36dp"
                     android:text="Project Manager"
+                    android:textAllCaps="false"
+                    android:textColor="@color/role_button_text_colorstatelist"
+                    android:textSize="11sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fOPRroleButton0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_role_button_stroke"
+                    android:backgroundTint="@color/role_button_bg_colorstatelist"
+                    android:focusableInTouchMode="true"
+                    android:minHeight="36dp"
+                    android:text="Client"
                     android:textAllCaps="false"
                     android:textColor="@color/role_button_text_colorstatelist"
                     android:textSize="11sp" />
@@ -198,7 +213,7 @@
                 <androidx.constraintlayout.helper.widget.Flow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="fOPRroleButton,fOPRroleButton1,fOPRroleButton2,fOPRroleButton3,fOPRroleButton4,fOPRroleButton5,fOPRroleButton6,fOPRroleButton7,fOPRroleButton8"
+                    app:constraint_referenced_ids="fOPRroleButton1,fOPRroleButton2,fOPRroleButton3,fOPRroleButton4,fOPRroleButton5,fOPRroleButton6,fOPRroleButton7,fOPRroleButton8,fOPRroleButton9,fOPRroleButton0"
                     app:flow_horizontalBias="0"
                     app:flow_horizontalGap="10dp"
                     app:flow_horizontalStyle="packed"

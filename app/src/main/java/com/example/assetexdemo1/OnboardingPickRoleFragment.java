@@ -2,11 +2,13 @@ package com.example.assetexdemo1;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +25,12 @@ public class OnboardingPickRoleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    Button fOPRbackButton;
+    AppCompatButton[] fOPRroleButtons = new AppCompatButton[10];
+    AppCompatButton fOPRcontinueButton;
+
+    int roleNum = 5; // Role ID for UI/UX Designer in the roles table
 
     public OnboardingPickRoleFragment() {
         // Required empty public constructor
@@ -60,5 +68,54 @@ public class OnboardingPickRoleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_onboarding_pick_role, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (this.getView() != null) {
+            fOPRbackButton = getView().findViewById(R.id.fOPRbackButton);
+            fOPRcontinueButton = getView().findViewById(R.id.fOPRcontinueButton);
+
+            int[] roleButtonIDs = {R.id.fOPRroleButton1, R.id.fOPRroleButton2, R.id.fOPRroleButton3, R.id.fOPRroleButton4, R.id.fOPRroleButton5, R.id.fOPRroleButton6, R.id.fOPRroleButton7, R.id.fOPRroleButton8, R.id.fOPRroleButton9, R.id.fOPRroleButton0};
+            int[] roleIDs = {5, 6, 7, 8, 9, 10, 11, 4, 12, 2};
+
+            for (int i = 0; i < roleButtonIDs.length; i++) {
+                Button currentButton = getView().findViewById(roleButtonIDs[i]);
+                currentButton.setFocusable(true);
+
+                int innerI = i;
+
+                currentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentButton.requestFocus();
+                    }
+                });
+
+                currentButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            roleNum = roleIDs[innerI];
+                        }
+                    }
+                });
+            }
+
+            fOPRcontinueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("email", getArguments().getString("email"));
+                    bundle.putString("full_name", getArguments().getString("full_name"));
+                    bundle.putString("password", getArguments().getString("password"));
+                    bundle.putString("role_id", String.valueOf(roleNum));
+
+                }
+            });
+        }
     }
 }

@@ -49,4 +49,9 @@
         android:name="com.example.assetexdemo1.OnboardingPickRoleFragment"
         android:label="fragment_onboarding_pick_role"
         tools:layout="@layout/fragment_onboarding_pick_role" />
+    <fragment
+        android:id="@+id/onboardingNotificationFragment"
+        android:name="com.example.assetexdemo1.OnboardingNotificationFragment"
+        android:label="fragment_onboarding_notification"
+        tools:layout="@layout/fragment_onboarding_notification" />
 </navigation>
