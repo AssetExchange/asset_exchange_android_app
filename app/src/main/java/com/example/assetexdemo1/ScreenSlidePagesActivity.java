@@ -16,17 +16,17 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.Source;
-import com.google.firebase.storage.FirebaseStorage;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnFailureListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.firestore.DocumentReference;
+//import com.google.firebase.firestore.DocumentSnapshot;
+//import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.firestore.Query;
+//import com.google.firebase.firestore.Source;
+//import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,8 +43,8 @@ public class ScreenSlidePagesActivity extends AppCompatActivity {
      */
     private ViewPager2 viewPager;
 
-    private FirebaseStorage storage;
-    private FirebaseFirestore firestoreDB;
+//    private FirebaseStorage storage;
+//    private FirebaseFirestore firestoreDB;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.

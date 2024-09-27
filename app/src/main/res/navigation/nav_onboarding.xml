@@ -20,12 +20,19 @@
         <action
             android:id="@+id/action_onboardingEmailFragment_to_onboardingFullNameFragment"
             app:destination="@id/onboardingFullNameFragment" />
+        <action
+            android:id="@+id/action_onboardingEmailFragment_to_onboardingTermsFragment"
+            app:destination="@id/onboardingTermsFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingEmailPasswordFragment"
         android:name="com.example.assetexdemo1.OnboardingEmailPasswordFragment"
         android:label="fragment_onboarding_email_password"
-        tools:layout="@layout/fragment_onboarding_email_password" />
+        tools:layout="@layout/fragment_onboarding_email_password" >
+        <action
+            android:id="@+id/action_onboardingEmailPasswordFragment_to_onboardingTermsFragment"
+            app:destination="@id/onboardingTermsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingFullNameFragment"
         android:name="com.example.assetexdemo1.OnboardingFullNameFragment"
@@ -48,10 +55,28 @@
         android:id="@+id/onboardingPickRoleFragment"
         android:name="com.example.assetexdemo1.OnboardingPickRoleFragment"
         android:label="fragment_onboarding_pick_role"
-        tools:layout="@layout/fragment_onboarding_pick_role" />
+        tools:layout="@layout/fragment_onboarding_pick_role" >
+        <action
+            android:id="@+id/action_onboardingPickRoleFragment_to_onboardingVerifyEmailFragment"
+            app:destination="@id/onboardingVerifyEmailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingNotificationFragment"
         android:name="com.example.assetexdemo1.OnboardingNotificationFragment"
         android:label="fragment_onboarding_notification"
         tools:layout="@layout/fragment_onboarding_notification" />
+    <fragment
+        android:id="@+id/onboardingVerifyEmailFragment"
+        android:name="com.example.assetexdemo1.OnboardingVerifyEmailFragment"
+        android:label="fragment_onboarding_verify_email"
+        tools:layout="@layout/fragment_onboarding_verify_email" >
+        <action
+            android:id="@+id/action_onboardingVerifyEmailFragment_to_onboardingNotificationFragment"
+            app:destination="@id/onboardingNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingTermsFragment"
+        android:name="com.example.assetexdemo1.OnboardingTermsFragment"
+        android:label="fragment_onboarding_terms"
+        tools:layout="@layout/fragment_onboarding_terms" />
 </navigation>

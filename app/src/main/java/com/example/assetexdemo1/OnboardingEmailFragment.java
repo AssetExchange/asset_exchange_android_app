@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,6 +33,7 @@ public class OnboardingEmailFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    TextView fOEprivacyTV;
     EditText fOEemailEditText;
     AppCompatButton fOEcontinueButton;
     String email = "";
@@ -89,6 +91,9 @@ public class OnboardingEmailFragment extends Fragment {
 
             fOEemailEditText = getView().findViewById(R.id.fOEemailEditText);
             fOEcontinueButton = getView().findViewById(R.id.fOEcontinueButton);
+            fOEprivacyTV = getView().findViewById(R.id.fOEprivacyTV);
+
+            NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 
             fOEemailEditText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -121,7 +126,6 @@ public class OnboardingEmailFragment extends Fragment {
                     // Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
                     // startActivity(intent);
 
-                    NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 //                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
 
                     if (CustomInputValidation.validateEmail(email)) {
@@ -149,6 +153,13 @@ public class OnboardingEmailFragment extends Fragment {
                                 "Unable to parse API response"
                         );
                     }
+                }
+            });
+
+            fOEprivacyTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingTermsFragment);
                 }
             });
         }

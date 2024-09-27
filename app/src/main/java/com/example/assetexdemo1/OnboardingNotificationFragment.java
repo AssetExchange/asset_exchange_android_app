@@ -1,7 +1,14 @@
 package com.example.assetexdemo1;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -9,6 +16,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +33,9 @@ public class OnboardingNotificationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    AppCompatButton fONcontinueButton;
+    Button fONskipButton;
 
     public OnboardingNotificationFragment() {
         // Required empty public constructor
@@ -69,7 +80,42 @@ public class OnboardingNotificationFragment extends Fragment {
         super.onResume();
 
         if (this.getView() != null) {
+
             NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
+
+            fONcontinueButton = getView().findViewById(R.id.fONcontinueButton);
+            fONskipButton = getView().findViewById(R.id.fONskipButton);
+
+            fONcontinueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int permissionState = 0;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        permissionState = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS);
+                        // If the permission is not granted, request it.
+                        if (permissionState == PackageManager.PERMISSION_DENIED) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+                            if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                                SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putBoolean("allow_notifications", true);
+                                editor.apply();
+                            }
+                        }
+                    }
+
+                    Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
+                    startActivity(intent);
+                }
+            });
+
+            fONskipButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

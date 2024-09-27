@@ -1,8 +1,12 @@
 package com.example.assetexdemo1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -17,6 +21,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +45,7 @@ public class OnboardingEmailPasswordFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    TextView fOEPprivacyTV;
     EditText fOEPemailEditText;
     EditText fOEPpasswordEditText;
     AppCompatButton fOEPcontinueButton;
@@ -103,6 +115,9 @@ public class OnboardingEmailPasswordFragment extends Fragment {
             fOEPemailEditText = getView().findViewById(R.id.fOEPemailEditText);
             fOEPpasswordEditText = getView().findViewById(R.id.fOEPpasswordEditText);
             fOEPcontinueButton = getView().findViewById(R.id.fOEPcontinueButton);
+            fOEPprivacyTV= getView().findViewById(R.id.fOEPprivacyTV);
+
+            NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 
             email = getArguments().getString("email");
             fOEPemailEditText.setText(email, TextView.BufferType.EDITABLE);
@@ -161,12 +176,73 @@ public class OnboardingEmailPasswordFragment extends Fragment {
             fOEPcontinueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 //                    navController.navigate(R.id.action_onboardingEmailPasswordFragment_to_onboardingFullNameFragment);
+                    InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
                     if (CustomInputValidation.validateEmail(email) && CustomInputValidation.validatePassword(password, null, email)) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
-                        startActivity(intent);
+
+                        Map<String,String> params = new HashMap<String, String>();
+                        params.put("action", "login");
+                        params.put("email", getArguments().getString("email"));
+                        params.put("password", password);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", getArguments().getString("email"));
+
+                        DBConn.postRequest(
+                                DBConn.getURL("login_signup.php"),
+                                getContext(),
+                                params,
+                                new DBConn.ResponseCallback() {
+                                    @Override
+                                    public void innerResponse(Object object) {
+//                                        String message = (String) object;
+//                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+//                                        if (message.equals("Login successful")) {
+//                                            Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
+//                                            startActivity(intent);
+//                                        }
+
+                                        if (object instanceof JSONObject) {
+                                            JSONObject json = (JSONObject) object;
+                                            try {
+                                                if (json.getString("code").equals("Login successful")) {
+                                                    Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG).show();
+
+                                                    SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+                                                    prefs.edit().putBoolean("logged_in", true).commit();
+                                                    prefs.edit().putString("user_id", json.getString("user_id")).commit();
+                                                    prefs.edit().putString("session_id", json.getString("session_id")).commit();
+                                                    prefs.edit().putString("email", json.getString("email")).commit();
+                                                    prefs.edit().putString("full_name", json.getString("full_name")).commit();
+
+
+                                                    bundle.putString("session_id", json.getString("session_id"));
+
+                                                    Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
+                                                    startActivity(intent, bundle);
+                                                }
+
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                            }
+                                    }
+                                },
+                                "Unable to connect to the database",
+                                "Unable to parse API response");
+//                        Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
+//                        startActivity(intent);
                     }
+                }
+            });
+
+            fOEPprivacyTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navController.navigate(R.id.action_onboardingEmailPasswordFragment_to_onboardingTermsFragment);
                 }
             });
         }

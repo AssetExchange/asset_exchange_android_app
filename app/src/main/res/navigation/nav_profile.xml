@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_profile"
+    app:startDestination="@id/onboardingEmailFragment2">
+
+    <fragment
+        android:id="@+id/onboardingEmailFragment2"
+        android:name="com.example.assetexdemo1.OnboardingEmailFragment"
+        android:label="fragment_onboarding_email"
+        tools:layout="@layout/fragment_onboarding_email" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.assetexdemo1.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_onboardingEmailFragment2"
+            app:destination="@id/onboardingEmailFragment2" />
+    </fragment>
+</navigation>

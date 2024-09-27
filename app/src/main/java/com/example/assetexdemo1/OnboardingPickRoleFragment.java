@@ -4,11 +4,20 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +35,7 @@ public class OnboardingPickRoleFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    Button fOPRbackButton;
+    ImageButton fOPRbackButton;
     AppCompatButton[] fOPRroleButtons = new AppCompatButton[10];
     AppCompatButton fOPRcontinueButton;
 
@@ -78,6 +87,8 @@ public class OnboardingPickRoleFragment extends Fragment {
             fOPRbackButton = getView().findViewById(R.id.fOPRbackButton);
             fOPRcontinueButton = getView().findViewById(R.id.fOPRcontinueButton);
 
+            NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
+
             int[] roleButtonIDs = {R.id.fOPRroleButton1, R.id.fOPRroleButton2, R.id.fOPRroleButton3, R.id.fOPRroleButton4, R.id.fOPRroleButton5, R.id.fOPRroleButton6, R.id.fOPRroleButton7, R.id.fOPRroleButton8, R.id.fOPRroleButton9, R.id.fOPRroleButton0};
             int[] roleIDs = {5, 6, 7, 8, 9, 10, 11, 4, 12, 2};
 
@@ -108,12 +119,40 @@ public class OnboardingPickRoleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-
                     bundle.putString("email", getArguments().getString("email"));
                     bundle.putString("full_name", getArguments().getString("full_name"));
                     bundle.putString("password", getArguments().getString("password"));
                     bundle.putString("role_id", String.valueOf(roleNum));
 
+                    Map<String, String> params = new HashMap<>();
+                    params.put("action", "signup");
+                    params.put("email", getArguments().getString("email"));
+                    params.put("full_name", getArguments().getString("full_name"));
+                    params.put("password", getArguments().getString("password"));
+                    params.put("role_id", String.valueOf(roleNum));
+
+                    DBConn.postRequest(
+                            DBConn.getURL("login_signup.php"),
+                            getContext(),
+                            params,
+                            new DBConn.ResponseCallback() {
+                                @Override
+                                public void innerResponse(Object object) {
+                                    String message = (String) object;
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    navController.navigate(R.id.action_onboardingPickRoleFragment_to_onboardingVerifyEmailFragment, bundle);
+                                }
+                            },
+                            "Unable to connect to the database",
+                            "Unable to parse API response"
+                    );
+                }
+            });
+
+            fOPRbackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navController.popBackStack();
                 }
             });
         }

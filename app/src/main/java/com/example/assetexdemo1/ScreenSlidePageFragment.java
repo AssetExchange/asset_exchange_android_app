@@ -18,16 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnFailureListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.firestore.Source;
+//import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicMarkableReference;
@@ -48,8 +48,8 @@ public class ScreenSlidePageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FirebaseStorage storage;
-    private FirebaseFirestore firestoreDB;
+//    private FirebaseStorage storage;
+//    private FirebaseFirestore firestoreDB;
     ConstraintLayout screenSlideFragmentContainer;
 
     public ScreenSlidePageFragment() {
@@ -97,7 +97,7 @@ public class ScreenSlidePageFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        StorageReference storageRef = storage.getReference();
+//        StorageReference storageRef = storage.getReference();
 
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(R.drawable.rounded_card);
@@ -106,9 +106,11 @@ public class ScreenSlidePageFragment extends Fragment {
 
         screenSlideFragmentContainer.addView(imageView);
 
+//        byte[] uri;
+//
 //        Glide.with(getView())
-//                //.load(uri)
-//                //.fitCenter()
+//                .load(uri)
+//                 .fitCenter()
 //                .into(imageView);
 
     }

@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">Asset Exchange</string>
     <string name="project_overview">Project Overview</string>
-    <string name="bottom_nav_menu_command">Command</string>
+    <string name="bottom_nav_menu_command">Activity</string>
     <string name="bottom_nav_menu_feather">Feather</string>
     <string name="bottom_nav_menu_plus">Plus</string>
     <string name="bottom_nav_menu_folder">Folder</string>
+    <string name="bottom_nav_menu_send">Send It</string>
     <string name="bottom_nav_menu_filetext">FileText</string>
     <string name="bottom_nav_menu_profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="onboarding_disclaimer_text">By signing up, you are creating a AssetEx. account and agree to AssetEx’s <a href="https://www.google.com">Terms</a> and <a href="https://www.google.com">Privacy Policy</a>.</string>
+    <string name="pref_key_file">com.example.assetexdemo1.PREFERENCE_FILE_KEY</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
