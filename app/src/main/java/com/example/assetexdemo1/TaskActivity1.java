@@ -2,6 +2,7 @@ package com.example.assetexdemo1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -82,9 +84,14 @@ public class TaskActivity1 extends Fragment {
 
         TextView counterTaskAll = getActivity().findViewById(R.id.counterTaskAll);
         TextView counterTaskCompleted = getActivity().findViewById(R.id.counterTaskCompleted);
+        ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
+
+        SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+        final boolean[] loading = new boolean[] {false, false};
 
         DBConn.getRequest(
-            DBConn.getRecordURL("tasks?filter=task_owner_id,eq,1&filter=date_completed,is,null"),
+            DBConn.getRecordURL("tasks?filter=task_owner_id,eq," + sharedPref.getString("user_id", "1") + "&filter=date_completed,is,null"),
             getContext(),
             new DBConn.ResponseCallback() {
                 @Override
@@ -92,6 +99,10 @@ public class TaskActivity1 extends Fragment {
                     System.out.println(object);
                     if (object instanceof JSONArray) {
                         counterTaskAll.setText(String.valueOf(((JSONArray) object).length()));
+                        loading[0] = true;
+                        if (loading[0] == true && loading[1] == true) {
+                            progressBar.setVisibility(View.GONE);
+                        }
                     }
                 }
             },
@@ -100,7 +111,7 @@ public class TaskActivity1 extends Fragment {
         );
 
         DBConn.getRequest(
-            DBConn.getRecordURL("tasks?filter=task_owner_id,eq,1&filter=date_completed,nis,null"),
+            DBConn.getRecordURL("tasks?filter=task_owner_id,eq," + sharedPref.getString("user_id", "1") + "&filter=date_completed,nis,null"),
             getContext(),
             new DBConn.ResponseCallback() {
                 @Override
@@ -108,6 +119,10 @@ public class TaskActivity1 extends Fragment {
                     System.out.println(object);
                     if (object instanceof JSONArray) {
                         counterTaskCompleted.setText(String.valueOf(((JSONArray) object).length()));
+                        loading[1] = true;
+                        if (loading[0] == true && loading[1] == true) {
+                            progressBar.setVisibility(View.GONE);
+                        }
                     }
                 }
             },

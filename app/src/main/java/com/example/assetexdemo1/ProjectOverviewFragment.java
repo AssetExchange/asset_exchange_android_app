@@ -1,6 +1,7 @@
 package com.example.assetexdemo1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -13,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +27,8 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -82,6 +90,10 @@ public class ProjectOverviewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (this.getView() != null) {
+            ImageButton addProjectTopButton = getView().findViewById(R.id.addProjectTopButton);
+
+            ProgressBar progressBar = getView().findViewById(R.id.progressBar2);
+
             RecyclerView allProjectsRV = getView().findViewById(R.id.allProjectsRV);
             ArrayList<ProjectModel> projectOverviewModels = new ArrayList<>();
 
@@ -92,8 +104,12 @@ public class ProjectOverviewFragment extends Fragment {
 
             allProjectsRV.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
 
+            SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+            final boolean[] loading = new boolean[] {false, false};
+
             DBConn.getRequest(
-                DBConn.getRecordURL("projects?filter=project_owner_id,eq,1"),
+                DBConn.getRecordURL("projects?filter=project_owner_id,eq," + sharedPref.getString("user_id", "1")),
                 getContext(),
                 new DBConn.ResponseCallback() {
                     @Override
@@ -101,36 +117,155 @@ public class ProjectOverviewFragment extends Fragment {
                     @Override
                     public void innerResponse(Object object, Context context) {
                         if (object instanceof JSONArray) {
-                             System.out.println(object);
+                            System.out.println(object);
 
-                             List<ProjectModel> dataList = new ArrayList<>();
+                            List<ProjectModel> dataList = new ArrayList<>();
 
-                             for (int i = 0; i < ((JSONArray) object).length(); i++) {
-                                 try {
-                                     JSONObject jsonObject = ((JSONArray) object).getJSONObject(i);
-                                     ProjectModel projectModel = new ProjectModel(
-                                         jsonObject.getInt("project_id"),
-                                         jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
-                                         jsonObject.getInt("project_owner_id"),
-                                         jsonObject.getString("project_title"),
-                                         jsonObject.getBoolean("priority"),
-                                         jsonObject.getString("project_image_path"),
-                                         jsonObject.getString("project_description")
-                                     );
+                            for (int i = 0; i < ((JSONArray) object).length(); i++) {
+                                try {
+                                    JSONObject jsonObject = ((JSONArray) object).getJSONObject(i);
+                                    ProjectModel projectModel = new ProjectModel(
+                                        jsonObject.getInt("project_id"),
+                                        jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
+                                        jsonObject.getInt("project_owner_id"),
+                                        jsonObject.getString("project_title"),
+                                        jsonObject.getBoolean("priority"),
+                                        jsonObject.getString("project_image_path"),
+                                        jsonObject.getString("project_description")
+                                    );
 
-                                     projectOverviewModels.add(projectModel);
-                                 }
-                                 catch (JSONException e) {
-                                     throw new RuntimeException(e);
-                                 }
-                             }
-                             allProjectsRV.setAdapter(projectOverviewAdapter);
+                                    projectOverviewModels.add(projectModel);
+                                }
+                                catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                            loading[0] = true;
+                            if (loading[0] == true && loading[1] == true) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                            Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
+                               @Override
+                               public int compare(ProjectModel lhs, ProjectModel rhs) {
+                                   int a = Boolean.compare(rhs.isPriority(), lhs.isPriority());
+                                   if (a != 0) {
+                                       return a;
+                                   }
+                                   return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
+                               }
+                            });
+                            allProjectsRV.setAdapter(projectOverviewAdapter);
                          }
                     }
                 },
                 "Unable to connect to the database",
                 "Unable to parse API response"
             );
+
+            DBConn.getRequest(
+                DBConn.getRecordURL("project_shares?join=projects&filter=privileges,in,1,2,3&filter=share_user_id,eq," + sharedPref.getString("user_id", "1")),
+                getContext(),
+                new DBConn.ResponseCallback() {
+                    @Override
+                    public void innerResponse(Object object) {}
+                    @Override
+                    public void innerResponse(Object object, Context context) {
+                        if (object instanceof JSONArray) {
+                            for (int i = 0; i < ((JSONArray) object).length(); i++) {
+                                try {
+                                    JSONObject jsonObject = ((JSONArray) object).getJSONObject(i);
+
+                                    ProjectModel projectModel = new ProjectModel(
+                                        jsonObject.getJSONObject("project_id").getInt("project_id"),
+                                        jsonObject.getJSONObject("project_id").isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getJSONObject("project_id").getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
+                                        jsonObject.getJSONObject("project_id").getInt("project_owner_id"),
+                                        jsonObject.getJSONObject("project_id").getString("project_title"),
+                                        jsonObject.getJSONObject("project_id").getBoolean("priority"),
+                                        jsonObject.getJSONObject("project_id").getString("project_image_path"),
+                                        jsonObject.getJSONObject("project_id").getString("project_description")
+                                    );
+
+                                    projectOverviewModels.add(projectModel);
+                                }
+                                catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
+                               @Override
+                               public int compare(ProjectModel lhs, ProjectModel rhs) {
+                                   int a = Boolean.compare(rhs.isPriority(), lhs.isPriority());
+                                   if (a != 0) {
+                                       return a;
+                                   }
+                                   return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
+                               }
+                            });
+
+                            loading[1] = true;
+                            if (loading[0] == true && loading[1] == true) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                            projectOverviewAdapter.notifyDataSetChanged();
+                         }
+                    }
+                },
+                "Unable to connect to the database",
+                "Unable to parse API response"
+            );
+
+            addProjectTopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AddProjectBottomSheet bottomSheet = new AddProjectBottomSheet();
+                    bottomSheet.show(getParentFragmentManager(), bottomSheet.getTag());
+                }
+            });
+
+            Spinner spinner = getView().findViewById(R.id.spinner);
+            String[] items = new String[] {"Name", "Date Created"};
+            ArrayAdapter<String> sortByAdapter = new ArrayAdapter<String>(getView().getContext(), android.R.layout.simple_spinner_item, items);
+
+            spinner.setAdapter(sortByAdapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                        int position, long id) {
+                    if (((String) parent.getItemAtPosition(position)).equals("Name")) {
+                        Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
+                            @Override
+                            public int compare(ProjectModel lhs, ProjectModel rhs) {
+                                int a = Boolean.compare(rhs.isPriority(),lhs.isPriority());
+                                if (a != 0) {
+                                    return a;
+                                }
+                                return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
+                            }
+                        });
+                    }
+                    else if (((String) parent.getItemAtPosition(position)).equals("Date Created")) {
+                        Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
+                            @Override
+                            public int compare(ProjectModel lhs, ProjectModel rhs) {
+                                int a = Boolean.compare(rhs.isPriority(), lhs.isPriority());
+                                if (a != 0) {
+                                    return a;
+                                }
+                                return rhs.getDateCreated().compareTo(lhs.getDateCreated());
+                            }
+                        });
+                    }
+                    projectOverviewAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // TODO Auto-generated method stub
+                }
+            });
         }
     }
 

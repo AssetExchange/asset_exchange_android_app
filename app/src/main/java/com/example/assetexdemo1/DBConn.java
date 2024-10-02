@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DBConn {
-    public static String connectionHost = "http://192.168.1.9/demo/"; // 192.168.43.72 // "http:/172.20.10.12/demo/"; // 192.168.43.72
+    public static String connectionHost = "https://beige-snake-192211.hostingersite.com/"; // "http://192.168.1.9/demo/"; // "https://beige-snake-192211.hostingersite.com/"; // "http://192.168.1.9/demo/"; // 192.168.43.72 // "http:/172.20.10.12/demo/"; // 192.168.43.72
 
     public static String getURL(String path) {
         return connectionHost + path;
@@ -48,6 +48,7 @@ public class DBConn {
                 Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
             }
         });
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(request);
     }
@@ -71,7 +72,7 @@ public class DBConn {
                 return params;
             }
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(15000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(request);
     }
@@ -100,7 +101,7 @@ public class DBConn {
                 }
             }
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(15000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(request);
     }
@@ -135,6 +136,9 @@ public class DBConn {
                         else if (!((JSONObject) json).isNull("records")) {
                             JSONArray jsonArray = new JSONArray(((JSONObject) json).getString("records"));
                             this.innerResponse(jsonArray, context);
+                        }
+                        else {
+                            this.innerResponse(json, context);
                         }
                     }
                     else if (json instanceof JSONArray) {

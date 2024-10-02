@@ -26,12 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllTasks extends AppCompatActivity {
+    Button allTasksRemindButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_all_tasks);
+
+        allTasksRemindButton = findViewById(R.id.allTasksRemindButton);
 
         Button showBottomSheetButton = findViewById(R.id.allTasksRemindButton);
         showBottomSheetButton.setOnClickListener(new View.OnClickListener() {
@@ -156,5 +159,12 @@ public class AllTasks extends AppCompatActivity {
                 "Unable to connect to the database",
                 "Unable to parse API response"
         );
+
+        allTasksRemindButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+            }
+        });
     }
 }

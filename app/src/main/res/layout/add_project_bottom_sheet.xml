@@ -5,9 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SendAssetBottomSheet">
+    tools:context=".AddProjectBottomSheet">
     <FrameLayout
-        android:id="@+id/sheet"
+        android:id="@+id/newProjectSheet"
         android:layout_width="match_parent"
         android:layout_height="650dp"
         android:background="@drawable/bottom_sheet_cardview_layout"
@@ -32,7 +32,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/buttonBackNewAsset"
+                    android:id="@+id/buttonBackNewProject"
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -42,18 +42,18 @@
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/newAssetLabel"
+                    android:id="@+id/newProjectLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="New Asset"
+                    android:text="New Project"
                     android:textColor="#3E3E3E"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/buttonAddNewAsset"
+                    android:id="@+id/buttonAddNewProject"
                     android:layout_width="81dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -71,7 +71,7 @@
 
 
                 <androidx.core.widget.NestedScrollView
-                    android:id="@+id/scrollView"
+                    android:id="@+id/scrollViewNewProject"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -89,7 +89,7 @@
                             android:layout_height="wrap_content">
 
                             <ImageButton
-                                android:id="@+id/buttonAddAsset"
+                                android:id="@+id/buttonAddProject"
                                 android:layout_width="fill_parent"
                                 android:layout_height="160dp"
                                 android:background="@drawable/rounded_card"
@@ -128,18 +128,19 @@
                                 android:textColor="#B6B6B6"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="@id/buttonAddAsset"
+                                app:layout_constraintBottom_toBottomOf="@id/buttonAddProject"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/buttonAddAsset"
+                                app:layout_constraintTop_toTopOf="@+id/buttonAddProject"
                                 app:layout_constraintVertical_bias="0.6" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/addAssetInputContainer"
+                            android:id="@+id/newProjectInputContainer"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
                             android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
                             android:backgroundTint="#FFFFFF"
                             app:cardCornerRadius="15dp"
                             app:cardElevation="0dp">
@@ -151,7 +152,7 @@
                                 android:padding="16dp">
 
                                 <EditText
-                                    android:id="@+id/addAssetInputTitle"
+                                    android:id="@+id/newProjectInputTitle"
                                     android:layout_width="match_parent"
                                     android:layout_height="42dp"
                                     android:layout_marginTop="-10dp"
@@ -167,7 +168,7 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <EditText
-                                    android:id="@+id/addAssetInputDescription"
+                                    android:id="@+id/newProjectInputDescription"
                                     android:layout_width="match_parent"
                                     android:layout_height="120dp"
                                     android:layout_marginTop="4dp"
@@ -184,7 +185,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/addAssetInputTitle"
+                                    app:layout_constraintTop_toBottomOf="@+id/newProjectInputTitle"
                                     app:layout_constraintVertical_bias="0.0" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,44 +194,51 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/newAssetAddedProjectsContainer"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20dp"
                             android:backgroundTint="#FFFFFF"
-                            android:clickable="true"
-                            app:cardCornerRadius="10dp"
+                            app:cardCornerRadius="15dp"
                             app:cardElevation="0dp">
-
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                                android:padding="12dp">
 
-
-                                <ImageButton
-                                    android:id="@+id/ic_arrow_right"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="fill_parent"
-                                    android:background="@android:color/transparent"
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:srcCompat="@drawable/ic_arrow_right" />
-
-                                <TextView
-                                    android:id="@+id/addAssetAddedProjectsSelector"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:text="Select a project"
-                                    android:textColor="#B6B6B6"
-                                    android:textSize="14sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent">
 
+                                    <ImageView
+                                        android:id="@+id/imageView12"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginHorizontal="8dp"
+                                        app:srcCompat="@drawable/priority_icon" />
+
+                                    <TextView
+                                        android:id="@+id/textView24"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Priority" />
+
+                                    <Switch
+                                        android:id="@+id/switch1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:checked="true"
+                                        android:thumb="@drawable/switch_thumb_selector"
+                                        android:track="@drawable/switch_track_selector" />
+
+                                </LinearLayout>
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
@@ -239,11 +247,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/addAssetShareWithText"
+                                android:id="@+id/newProjectShareWithText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="12dp"
@@ -253,7 +260,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:id="@+id/editTextText2"
+                                android:id="@+id/newProjectShareWithEditText"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rounded_input"

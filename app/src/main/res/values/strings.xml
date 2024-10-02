@@ -15,4 +15,9 @@
     <string name="pref_key_file">com.example.assetexdemo1.PREFERENCE_FILE_KEY</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string-array name="project_sort_array">
+        <item>Name</item>
+        <item>Date Created</item>
+    </string-array>
 </resources>

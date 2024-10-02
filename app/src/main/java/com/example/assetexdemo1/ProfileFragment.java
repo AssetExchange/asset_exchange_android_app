@@ -11,17 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+
+import android.content.DialogInterface;
+import androidx.appcompat.app.AlertDialog;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +49,10 @@ public class ProfileFragment extends Fragment {
     private boolean notificationToggle = false;
     private Switch profileNotificationSwitch;
     private Button profileLogoutButton;
+    LinearLayout profileUserProfileContainer;
+    ImageView profileFragmentProfilePicture;
+    ProgressBar progressBar;
+    TextView profileFragmentFullName, profileFragmentEmailAddress;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -86,11 +97,67 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (this.getView() != null) {
+            profileFragmentProfilePicture = getView().findViewById(R.id.profileFragmentProfilePicture);
+            profileFragmentFullName = getView().findViewById(R.id.profileFragmentFullName);
+            profileFragmentEmailAddress = getView().findViewById(R.id.profileFragmentEmailAddress);
+            profileUserProfileContainer = getView().findViewById(R.id.profileFragmentProfileContainer);
+
             SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
 
             profileNotificationSwitch = getView().findViewById(R.id.profileNotificationSwitch);
             profileLogoutButton = getView().findViewById(R.id.profileLogoutButton);
+
+            profileFragmentFullName.setText(sharedPref.getString("full_name", "Name"));
+            profileFragmentEmailAddress.setText(sharedPref.getString("email", "Email"));
+
+            progressBar = getView().findViewById(R.id.progressBar4);
+            progressBar.setVisibility(View.GONE);
+
+            profileUserProfileContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    DBConn.getRequest(
+                        DBConn.getRecordURL("users/" + sharedPref.getString("user_id", "1")),
+                        getContext(),
+                        new DBConn.ResponseCallback() {
+                            @Override
+                            public void innerResponse(Object object) {
+                                if (object instanceof JSONObject) {
+                                    try {
+                                        JSONObject jsonObject = (JSONObject) object;
+
+                                        if (!jsonObject.has("code")) {
+                                            progressBar.setVisibility(View.GONE);
+
+                                            UserModel userModel = new UserModel(
+                                                jsonObject.getInt("user_id"),
+                                                jsonObject.getString("email"),
+                                                jsonObject.getString("full_name"),
+                                                jsonObject.getInt("role_id"),
+                                                jsonObject.isNull("profile_pic_path") ? null : jsonObject.getString("profile_pic_path")
+                                            );
+
+                                            Intent intent = new Intent(getActivity(), ProfileViewerActivity.class);
+                                            intent.putExtra("user_model", userModel);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "Cannot get user profile", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                        },
+                        "Unable to connect to the database",
+                        "Unable to parse API response"
+                    );
+                }
+            });
 
             profileNotificationSwitch.setChecked(sharedPref.getBoolean("allow_notifications", false));
 
@@ -122,15 +189,33 @@ public class ProfileFragment extends Fragment {
             profileLogoutButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Clear user preferences
-                    editor.clear().commit();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                    Intent intent = new Intent(getActivity(), OnboardingActivity.class);
-                    startActivity(intent);
+                    builder.setTitle("Logout")
+                        .setMessage("Are you sure you want to log out?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Clear user preferences
+                                editor.clear().commit();
 
-                    Toast.makeText(getActivity().getApplicationContext(), "You have successfully logged out", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getActivity(), OnboardingActivity.class);
+                                startActivity(intent);
 
-                    getActivity().finish();
+                                Toast.makeText(getActivity().getApplicationContext(), "You have successfully logged out", Toast.LENGTH_SHORT).show();
+
+                                getActivity().finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }
+                    );
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
         }

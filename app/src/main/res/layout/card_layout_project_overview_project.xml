@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     android:layout_gravity="center"
     android:layout_marginVertical="4dp"
-    android:background="@drawable/rounded_card"
+    android:background="@drawable/rounded_card_small_radius"
     android:backgroundTint="#67666B"
     android:padding="6dp">
 
@@ -39,7 +39,7 @@
             android:gravity="center_vertical"
             android:text="Project Name"
             android:textColor="@color/white"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
     </LinearLayout>
