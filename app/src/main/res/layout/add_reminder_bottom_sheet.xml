@@ -5,22 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddProjectBottomSheet">
-
-    <ProgressBar
-        android:id="@+id/progressBar10"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/newProjectSheet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    tools:context=".AddReminderBottomSheet">
     <FrameLayout
-        android:id="@+id/newProjectSheet"
+        android:id="@+id/newReminderSheet"
         android:layout_width="match_parent"
         android:layout_height="650dp"
         android:background="@drawable/bottom_sheet_cardview_layout"
@@ -29,7 +16,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +32,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/buttonBackNewProject"
+                    android:id="@+id/buttonBackNewReminder"
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -54,18 +42,18 @@
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/newProjectLabel"
+                    android:id="@+id/newReminderLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="New Project"
+                    android:text="New Reminder"
                     android:textColor="#3E3E3E"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/buttonAddNewProject"
+                    android:id="@+id/buttonAddNewReminder"
                     android:layout_width="81dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -83,11 +71,10 @@
 
 
                 <androidx.core.widget.NestedScrollView
-                    android:id="@+id/scrollViewNewProject"
+                    android:id="@+id/scrollViewNewReminder"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fillViewport="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -97,66 +84,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <Space
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageButton
-                                android:id="@+id/buttonAddProject"
-                                android:layout_width="fill_parent"
-                                android:layout_height="160dp"
-                                android:background="@drawable/rounded_card"
-                                android:backgroundTint="#FFFFFF"
-                                android:ellipsize="middle"
-                                android:paddingTop="45dp"
-                                android:text="Click here to add picture"
-                                android:textColor="#B6B6B6"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
-                                app:cornerRadius="15dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.0" />
-
-                            <ImageView
-                                android:id="@+id/imageView6"
-                                android:layout_width="50dp"
-                                android:layout_height="48dp"
-                                app:layout_constraintBottom_toTopOf="@+id/textView22"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="1.0"
-                                app:srcCompat="@drawable/add_asset_icon" />
-
-                            <TextView
-                                android:id="@+id/textView22"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="middle"
-                                android:text="Click here to add picture"
-                                android:textColor="#B6B6B6"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="@id/buttonAddProject"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/buttonAddProject"
-                                app:layout_constraintVertical_bias="0.6" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/newProjectInputContainer"
+                            android:id="@+id/newReminderInputContainer"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
                             android:backgroundTint="#FFFFFF"
                             app:cardCornerRadius="15dp"
@@ -169,7 +100,7 @@
                                 android:padding="16dp">
 
                                 <EditText
-                                    android:id="@+id/newProjectInputTitle"
+                                    android:id="@+id/newReminderInputTitle"
                                     android:layout_width="match_parent"
                                     android:layout_height="42dp"
                                     android:layout_marginTop="-10dp"
@@ -185,7 +116,7 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <EditText
-                                    android:id="@+id/newProjectInputDescription"
+                                    android:id="@+id/newReminderInputDescription"
                                     android:layout_width="match_parent"
                                     android:layout_height="120dp"
                                     android:layout_marginTop="4dp"
@@ -202,7 +133,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/newProjectInputTitle"
+                                    app:layout_constraintTop_toBottomOf="@+id/newReminderInputTitle"
                                     app:layout_constraintVertical_bias="0.0" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -211,61 +142,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/newProjectDueDateCardView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"
-                            android:backgroundTint="#FFFFFF"
-                            app:cardCornerRadius="15dp"
-                            app:cardElevation="0dp">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="12dp">
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <ImageView
-                                        android:id="@+id/imageView14"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginHorizontal="8dp"
-                                        app:srcCompat="@drawable/priority_icon" />
-
-                                    <TextView
-                                        android:id="@+id/textView27"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Date" />
-
-                                    <TextView
-                                        android:id="@+id/newProjectDueDateView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
-
-                                    <ImageView
-                                        android:id="@+id/imageView9"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_arrow_right" />
-
-                                </LinearLayout>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
+                            android:id="@+id/newReminderDueDateCardView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="20dp"
@@ -300,6 +177,59 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="Date" />
+
+                                    <TextView
+                                        android:id="@+id/newReminderDueDateView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView9"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:srcCompat="@drawable/ic_arrow_right" />
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20dp"
+                            android:backgroundTint="#FFFFFF"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="12dp">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <ImageView
+                                        android:id="@+id/imageView13"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginHorizontal="8dp"
+                                        app:srcCompat="@drawable/priority_icon" />
+
+                                    <TextView
+                                        android:id="@+id/textView25"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:text="Priority" />
 
                                     <Switch
@@ -315,44 +245,7 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/newProjectShareWithText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="12dp"
-                                android:text="Share with"
-                                android:textColor="#0886F6"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:id="@+id/newProjectShareWithEditText"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/rounded_input"
-                                android:backgroundTint="#FFFFFF"
-                                android:ems="10"
-                                android:hint="Email address"
-                                android:inputType="text|textEmailAddress"
-                                android:paddingStart="12dp"
-                                android:textColor="#3E3E3E"
-                                android:textColorHint="#B6B6B6"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <Space
-                            android:id="@+id/newProjectSpace"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp" />
                     </LinearLayout>
-
                 </androidx.core.widget.NestedScrollView>
 
 

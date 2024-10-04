@@ -1,6 +1,8 @@
 package com.example.assetexdemo1;
 
+import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,11 +48,17 @@ public class DBConn {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
+                System.out.println(error.getMessage());
             }
         });
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
+        // RequestQueue queue = Volley.newRequestQueue(context);
+        // queue.add(request);
+        if (request == null) {
+            System.out.println("sdfsdf");
+        }
+
+        ConnectionController.getInstance().addToRequestQueue(request);
     }
 
     public static void postRequest(String url, Context context, Map<String, String> params, ResponseCallback responseCallback, String onErrorString, String onErrorString2) {
@@ -73,8 +81,9 @@ public class DBConn {
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
+        // RequestQueue queue = Volley.newRequestQueue(context);
+        // queue.add(request);
+        ConnectionController.getInstance().addToRequestQueue(request);
     }
 
     public static void putRequest(String url, Context context, JSONObject params, ResponseCallback responseCallback, String onErrorString, String onErrorString2) {
@@ -102,8 +111,9 @@ public class DBConn {
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
+        // RequestQueue queue = Volley.newRequestQueue(context);
+        // queue.add(request);
+        ConnectionController.getInstance().addToRequestQueue(request);
     }
 
     public static abstract class ResponseCallback {

@@ -12,13 +12,16 @@
     <color name="colorOnboardingEditTextForeground">#696969</color>
 
     <color name="colorOnboardingButtonBackgroundDisabled">#666666</color>
-    <color name="colorOnboardingButtonBackgroundEnabled">#F8523C</color>
+
+    <color name="colorOnboardingButtonBackgroundEnabled">#FE6732</color>
+<!--    <color name="colorOnboardingButtonBackgroundEnabled">#F8523C</color>-->
     <color name="colorOnboardingButtonForeground">#F6F6F6</color>
     <color name="colorOnboardingLink">#F44E1C</color>
 
     <color name="colorOnboardingPasswordHintGray">#878787</color>
     <color name="colorOnboardingPasswordHintRed">#B13F29</color>
     <color name="colorOnboardingPasswordHintGreen">#29B152</color>
+
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>

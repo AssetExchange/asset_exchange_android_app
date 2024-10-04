@@ -1,6 +1,7 @@
 package com.example.assetexdemo1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,7 +32,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
 
 public class CompletedTasks extends AppCompatActivity {
     LinearLayout completedLinearLayout;
@@ -59,8 +63,12 @@ public class CompletedTasks extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+        ProgressBar progressBar = findViewById(R.id.progressBar6);
+
+        progressBar.setVisibility(View.VISIBLE);
         DBConn.getRequest(
-            DBConn.getRecordURL("tasks?filter=task_owner_id,eq,1"),
+            DBConn.getRecordURL("tasks?filter=task_owner_id,eq," + sharedPref.getString("user_id", "1")),
             this,
             new DBConn.ResponseCallback() {
                 @Override
@@ -101,8 +109,12 @@ public class CompletedTasks extends AppCompatActivity {
                             }
                         ));
 
+                        Map<LocalDateTime, List<JSONObject>> groupedSortedList = groupedList.entrySet().stream()
+                            .sorted((e1, e2) -> -1 * e1.getKey().compareTo(e2.getKey()))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
-                        for (Map.Entry<LocalDateTime, List<JSONObject>> dateTimeGroup : groupedList.entrySet()) {
+
+                        for (Map.Entry<LocalDateTime, List<JSONObject>> dateTimeGroup : groupedSortedList.entrySet()) {
                             System.out.println(dateTimeGroup.getKey());
 
                             TextView textView = new TextView(CompletedTasks.this);
@@ -111,12 +123,13 @@ public class CompletedTasks extends AppCompatActivity {
                             textView.setTypeface(null, Typeface.BOLD);
 
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            params.setMargins(0, 26,0,0);
+                            params.setMargins(0, 24,0,0);
                             textView.setLayoutParams(params);
 
                             completedLinearLayout.addView(textView);
 
                             RecyclerView groupTasksRV = new RecyclerView(CompletedTasks.this);
+
                             ArrayList<TasksModel> groupTasksModels = new ArrayList<>();
 
                             for (JSONObject object1 : dateTimeGroup.getValue()) {
@@ -138,11 +151,20 @@ public class CompletedTasks extends AppCompatActivity {
                                 catch (JSONException e) {}
                             }
 
+                            System.out.println(groupTasksModels);
+
                             CompletedTasksAdapter groupTasksAdapter = new CompletedTasksAdapter(CompletedTasks.this, groupTasksModels);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CompletedTasks.this, LinearLayoutManager.VERTICAL, false);
                             groupTasksRV.setLayoutManager(linearLayoutManager);
                             groupTasksRV.setAdapter(groupTasksAdapter);
+                            completedLinearLayout.addView(groupTasksRV);
+
+                            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) groupTasksRV.getLayoutParams();
+                            layoutParams.setMargins(12,12,12,12); // Set left, top, right, bottom margins
+                            groupTasksRV.setLayoutParams(layoutParams);
                         }
+
+                        progressBar.setVisibility(View.GONE);
 
 
 //                         for (int i = 0; i < ((JSONArray) object).length(); i++) {

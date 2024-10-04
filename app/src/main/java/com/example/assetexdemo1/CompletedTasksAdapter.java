@@ -55,6 +55,9 @@ public class CompletedTasksAdapter extends RecyclerView.Adapter<CompletedTasksAd
 
         holder.taskRadio.setText(model.getTaskTitle());
         holder.taskRadio.setChecked(model.isCompleted());
+        holder.taskRadio.setVisibility(View.GONE);
+
+        holder.taskTitle.setText(model.getTaskTitle());
 
         if (model.getDueDate() != null) {
             // holder.taskDueDate.setText(model.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -103,36 +106,6 @@ public class CompletedTasksAdapter extends RecyclerView.Adapter<CompletedTasksAd
                 holder.taskRadio.toggle();
             }
         });
-
-        holder.taskRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    model.setCompleted();
-                    holder.taskRadio.setPaintFlags(holder.taskRadio.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                    JSONObject params = new JSONObject();
-                    try {
-                        params.put("date_completed", DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss").format(LocalDateTime.now()));
-                        DBConn.putRequest(DBConn.getRecordURL("tasks/" + model.getTaskId()), buttonView.getContext(), params, new DBConn.ResponseCallback() {
-                                @Override
-                                public void innerResponse(Object object) {
-                                    removeItem(holder.getBindingAdapterPosition());
-                                }
-                            },
-                            "Unable to connect to the database",
-                            "Unable to parse API response"
-                        );
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                else {
-                    model.setDateCompleted(null);
-                    holder.taskRadio.setPaintFlags(holder.taskRadio.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                }
-            }
-        });
     }
 
     @Override
@@ -149,11 +122,15 @@ public class CompletedTasksAdapter extends RecyclerView.Adapter<CompletedTasksAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final CheckBox taskRadio;
         private final TextView taskDueDate;
+        private final TextView taskTitle;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             taskRadio = itemView.findViewById(R.id.taskRadio);
             taskDueDate = itemView.findViewById(R.id.dateDueTextView);
+            taskTitle = itemView.findViewById(R.id.taskTitleTextView);
+
         }
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +78,8 @@ public class SelectProjectFromAssetActivity extends AppCompatActivity {
         RecyclerView selectProjectRV = findViewById(R.id.selectProjectRecyclerView);
         ArrayList<ProjectModel> selectProjectModels = new ArrayList<>();
 
+        ProgressBar progressBar = findViewById(R.id.progressBar8);
+
         SelectProjectFromAssetAdapter selectProjectAdapter = new SelectProjectFromAssetAdapter(this, selectProjectModels, new SelectProjectFromAssetAdapter.OnProjectSelectListener() {
             @Override
             public void onProjectSelect(ProjectModel model) {
@@ -90,6 +93,7 @@ public class SelectProjectFromAssetActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
 
+        progressBar.setVisibility(View.VISIBLE);
         DBConn.getRequest(
             DBConn.getRecordURL("projects?filter=project_owner_id,eq," + sharedPref.getString("user_id", "1")),
             this,
@@ -98,6 +102,7 @@ public class SelectProjectFromAssetActivity extends AppCompatActivity {
                 public void innerResponse(Object object) {}
                 @Override
                 public void innerResponse(Object object, Context context) {
+                    progressBar.setVisibility(View.GONE);
                     if (object instanceof JSONObject) {
 
                     }

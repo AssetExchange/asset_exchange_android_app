@@ -1,6 +1,7 @@
 package com.example.assetexdemo1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,14 @@ public class ProjectListItemsAdapter extends RecyclerView.Adapter<ProjectListIte
                 .dontAnimate()
                 .into(holder.projectListItemImageButton);
             holder.projectListItemCaption.setVisibility(View.GONE);
+            holder.projectListItemImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AssetRevisionActivity.class);
+                    intent.putExtra("asset_model", model);
+                    context.startActivity(intent);
+                }
+            });
         }
         else {
             Glide.with(context).clear(holder.projectListItemImageButton);

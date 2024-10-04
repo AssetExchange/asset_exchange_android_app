@@ -123,7 +123,6 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                 @Override
                 public void innerResponse(Object object, Context context) {
                     try {
-                        System.out.println(object.toString() + "a");
                         if (object instanceof JSONObject) {
                             System.out.println(((JSONObject) object).toString(4));
 //                            projectItemViewProjectOwner.setText(((JSONObject) object).getString("full_name"));
@@ -206,13 +205,29 @@ public class ProjectItemViewActivity extends AppCompatActivity {
             }, "Unable to connect to the database",
                 "Unable to parse API response");
 
-            DBConn.getRequest(DBConn.getRecordURL("users/" + String.valueOf(projectModel.getProjectOwnerId()) + "?include=full_name"), this, new DBConn.ResponseCallback() {
+            DBConn.getRequest(DBConn.getRecordURL("users/" + String.valueOf(projectModel.getProjectOwnerId())), this, new DBConn.ResponseCallback() {
                 @Override
                 public void innerResponse(Object object) {
                     try {
                         System.out.println(object.toString() + " " + object.getClass());
                         if (object instanceof JSONObject) {
-                            projectItemViewProjectOwner.setText(((JSONObject) object).getString("full_name"));
+                            UserModel userModel = new UserModel(
+                                    ((JSONObject) object).getInt("user_id"),
+                                    ((JSONObject) object).getString("email"),
+                                    ((JSONObject) object).getString("full_name"),
+                                    ((JSONObject) object).getInt("role_id"),
+                                    (((JSONObject) object).isNull("profile_pic_path") ? null : ((JSONObject) object).getString("profile_pic_path"))
+                            );
+
+                            projectItemViewProjectOwner.setText(userModel.getFullName());
+                            projectItemViewProjectOwner.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(ProjectItemViewActivity.this, ProfileViewerActivity.class);
+                                    intent.putExtra("user_model", userModel);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     } catch (Exception e) {
                         Toast.makeText(ProjectItemViewActivity.this, "Unable to fetch project data", Toast.LENGTH_SHORT).show();

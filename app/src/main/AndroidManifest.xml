@@ -25,6 +25,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AssetRevisionActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProjectBasedActivityViewActivity"
             android:exported="false" />
         <activity

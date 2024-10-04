@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -63,6 +64,7 @@ public class ProjectAccessFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (projectModel != null) {
+            ProgressBar progressBar = view.findViewById(R.id.progressBar11);
             RecyclerView projectAccessRV = view.findViewById(R.id.projectAccessRV);
 
             ArrayList<ProjectAccessModel> projectAccessModels = new ArrayList<>();
@@ -72,6 +74,8 @@ public class ProjectAccessFragment extends Fragment {
             projectAccessRV.setLayoutManager(linearLayoutManager);
             projectAccessRV.setAdapter(projectAccessAdapter);
 
+            progressBar.setVisibility(View.VISIBLE);
+
             DBConn.getRequest(DBConn.getRecordURL("project_shares?join=users&filter=project_id,eq," + String.valueOf(projectModel.getProjectId())), getContext(), new DBConn.ResponseCallback() {
                         @Override
                         public void innerResponse(Object object) {
@@ -79,6 +83,7 @@ public class ProjectAccessFragment extends Fragment {
 
                         @Override
                         public void innerResponse(Object object, Context context) {
+                            progressBar.setVisibility(View.GONE);
                             try {
                                 System.out.println(object.toString() + "a");
                                 if (object instanceof JSONObject) {

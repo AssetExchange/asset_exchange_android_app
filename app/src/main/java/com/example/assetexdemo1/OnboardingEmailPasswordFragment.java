@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import android.text.method.PasswordTransformationMethod;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -49,6 +50,9 @@ public class OnboardingEmailPasswordFragment extends Fragment {
     EditText fOEPemailEditText;
     EditText fOEPpasswordEditText;
     AppCompatButton fOEPcontinueButton;
+    Button fOEPpasswordShowButton;
+
+    boolean passwordShow = false;
 
     String email = "";
     String password = "";
@@ -115,7 +119,8 @@ public class OnboardingEmailPasswordFragment extends Fragment {
             fOEPemailEditText = getView().findViewById(R.id.fOEPemailEditText);
             fOEPpasswordEditText = getView().findViewById(R.id.fOEPpasswordEditText);
             fOEPcontinueButton = getView().findViewById(R.id.fOEPcontinueButton);
-            fOEPprivacyTV= getView().findViewById(R.id.fOEPprivacyTV);
+            fOEPprivacyTV = getView().findViewById(R.id.fOEPprivacyTV);
+            fOEPpasswordShowButton = getView().findViewById(R.id.fOEPpasswordShowButton);
 
             NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 
@@ -235,6 +240,32 @@ public class OnboardingEmailPasswordFragment extends Fragment {
                                 "Unable to parse API response");
 //                        Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
 //                        startActivity(intent);
+                    }
+                }
+            });
+
+            fOEPpasswordShowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int startSelection, endSelection;
+                    if (!passwordShow) {
+                        passwordShow = true;
+
+                        startSelection = fOEPpasswordEditText.getSelectionStart();
+                        endSelection = fOEPpasswordEditText.getSelectionEnd();
+
+                        fOEPpasswordEditText.setTransformationMethod(null);
+
+                        fOEPpasswordEditText.setSelection(startSelection, endSelection);
+                    }
+                    else {
+                        passwordShow = false;
+
+                        startSelection = fOEPpasswordEditText.getSelectionStart();
+                        endSelection = fOEPpasswordEditText.getSelectionEnd();
+
+                        fOEPpasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
+                        fOEPpasswordEditText.setSelection(startSelection, endSelection);
                     }
                 }
             });

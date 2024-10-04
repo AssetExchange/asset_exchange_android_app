@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,9 @@ public class OnboardingSignupPasswordFragment extends Fragment {
     EditText fOSPpasswordEditText;
     AppCompatButton fOSPcontinueButton;
     ImageButton fOSPbackButton;
+    Button fOSPpasswordShowButton;
     String password = "";
+    boolean passwordShow = false;
 
     public OnboardingSignupPasswordFragment() {
         // Required empty public constructor
@@ -88,6 +91,7 @@ public class OnboardingSignupPasswordFragment extends Fragment {
             fOSPpasswordEditText = getView().findViewById(R.id.fOSPpasswordEditText);
             fOSPcontinueButton = getView().findViewById(R.id.fOSPcontinueButton);
             fOSPbackButton = getView().findViewById(R.id.fOSPbackButton);
+            fOSPpasswordShowButton = getView().findViewById(R.id.fOSPpasswordShowButton);
 
             ImageView imageView3 = getView().findViewById(R.id.imageView3);
             ImageView imageView4 = getView().findViewById(R.id.imageView4);
@@ -114,15 +118,13 @@ public class OnboardingSignupPasswordFragment extends Fragment {
                     if (CustomInputValidation.validatePassword(s.toString(), getArguments().getString("full_name"), getArguments().getString("email"))) {
                         fOSPcontinueButton.setClickable(true);
                         fOSPcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundEnabled, null)));
-                        imageView3.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null)));
-                        textView.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
+//                        textView.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
                         textView.setText("Password strength: strong");
                     }
                     else {
                         fOSPcontinueButton.setClickable(false);
                         fOSPcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundDisabled, null)));
-                        imageView3.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingPasswordHintRed, null)));
-                        textView.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintRed, null));
+//                        textView.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintRed, null));
                         textView.setText("Password strength: weak");
                     }
 
@@ -130,7 +132,7 @@ public class OnboardingSignupPasswordFragment extends Fragment {
 
                     if (checklist[0] == true) {
                         imageView4.setImageResource(R.drawable.password_check);
-                        textView2.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
+                        textView2.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGreen, null));
                     }
                     else {
                         imageView4.setImageResource(R.drawable.password_cross);
@@ -138,7 +140,7 @@ public class OnboardingSignupPasswordFragment extends Fragment {
                     }
                     if (checklist[1] == true) {
                         imageView5.setImageResource(R.drawable.password_check);
-                        textView3.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
+                        textView3.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGreen, null));
                     }
                     else {
                         imageView5.setImageResource(R.drawable.password_cross);
@@ -146,7 +148,7 @@ public class OnboardingSignupPasswordFragment extends Fragment {
                     }
                     if (checklist[2] == true) {
                         imageView6.setImageResource(R.drawable.password_check);
-                        textView4.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
+                        textView4.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGreen, null));
                     }
                     else {
                         imageView6.setImageResource(R.drawable.password_cross);
@@ -154,7 +156,7 @@ public class OnboardingSignupPasswordFragment extends Fragment {
                     }
                     if (checklist[3] == true) {
                         imageView7.setImageResource(R.drawable.password_check);
-                        textView5.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGray, null));
+                        textView5.setTextColor(getResources().getColor(R.color.colorOnboardingPasswordHintGreen, null));
                     }
                     else {
                         imageView7.setImageResource(R.drawable.password_cross);
@@ -162,6 +164,32 @@ public class OnboardingSignupPasswordFragment extends Fragment {
                     }
 
                     password = s.toString();
+                }
+            });
+
+            fOSPpasswordShowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int startSelection, endSelection;
+                    if (!passwordShow) {
+                        passwordShow = true;
+
+                        startSelection = fOSPpasswordEditText.getSelectionStart();
+                        endSelection = fOSPpasswordEditText.getSelectionEnd();
+
+                        fOSPpasswordEditText.setTransformationMethod(null);
+
+                        fOSPpasswordEditText.setSelection(startSelection, endSelection);
+                    }
+                    else {
+                        passwordShow = false;
+
+                        startSelection = fOSPpasswordEditText.getSelectionStart();
+                        endSelection = fOSPpasswordEditText.getSelectionEnd();
+
+                        fOSPpasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
+                        fOSPpasswordEditText.setSelection(startSelection, endSelection);
+                    }
                 }
             });
 

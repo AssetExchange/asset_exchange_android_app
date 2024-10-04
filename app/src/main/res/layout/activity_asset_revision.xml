@@ -8,11 +8,11 @@
     android:background="#EAEAEA"
     android:orientation="vertical"
     android:padding="0dp"
-    tools:context=".SelectProjectFromAssetActivity">
+    tools:context=".AssetRevisionActivity">
 
 
     <ProgressBar
-        android:id="@+id/progressBar8"
+        android:id="@+id/progressBar12"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/frameLayoutSelectProject"
+        android:id="@+id/frameLayoutAssetRevision"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="20dp"
@@ -38,19 +38,19 @@
 
 
             <TextView
-                android:id="@+id/textSelectProject"
+                android:id="@+id/textSelectAssetRevision"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select a project"
+                android:text="Asset Revisions"
                 android:textColor="#101010"
                 android:textSize="28dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backSelectProject"
+                app:layout_constraintStart_toEndOf="@+id/backAssetRevision"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/backSelectProject"
+                android:id="@+id/backAssetRevision"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -65,24 +65,49 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView4"
+        android:id="@+id/scrollView5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        app:layout_constraintBottom_toTopOf="@id/selectProjectAddButton"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayoutSelectProject"
+        app:layout_constraintBottom_toTopOf="@id/assetRevisionAddRevisionButton"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutAssetRevision"
         tools:layout_editor_absoluteX="20dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/selectProjectRecyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <ImageView
+                android:id="@+id/assetRevisionLatestRevisionImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_card"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <Button
+                android:id="@+id/assetRevisionRevertButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
+                android:text="Revert revision"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/assetRevisionRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/selectProjectAddButton"
+        android:id="@+id/assetRevisionAddRevisionButton"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|end"
@@ -90,7 +115,7 @@
         android:backgroundTint="#F8523C"
         android:contentDescription="Add asset to project"
         android:elevation="20dp"
-        android:text="Add to project"
+        android:text="Add revision"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         app:cornerRadius="8dp"

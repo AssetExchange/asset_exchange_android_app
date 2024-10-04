@@ -10,6 +10,17 @@
     tools:context=".CompletedTasks">
 
 
+    <ProgressBar
+        android:id="@+id/progressBar6"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/frameLayoutCompletedTasks"
         android:layout_width="match_parent"
@@ -29,7 +40,7 @@
                 android:id="@+id/textCompletedTasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All"
+                android:text="Completed"
                 android:textColor="#101010"
                 android:textSize="28dp"
                 android:textStyle="bold"
@@ -69,33 +80,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/completedTasksRemindButton"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayoutCompletedTasks">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutCompletedTasks"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:id="@+id/completedLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:text="Today"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/completedTasksRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </LinearLayout>
+            android:orientation="vertical" />
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
@@ -110,6 +104,7 @@
         android:text="Remind"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
+        android:visibility="gone"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

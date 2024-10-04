@@ -2,22 +2,38 @@ package com.example.assetexdemo1;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import static com.example.assetexdemo1.MiscUtils.hideKeyboard;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Space;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +43,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.android.volley.NetworkResponse;
@@ -57,6 +74,12 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
     TextView textView22;
     EditText newProjectShareWithEditText;
     Switch switch1;
+    ProgressBar progressBar;
+    NestedScrollView scrollViewNewProject;
+
+    int oldHeight = 0;
+    int keyboardHeight = 0;
+    boolean isVisible = false;
 
     private final ActivityResultLauncher<String> filePickerLauncher =
         registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
@@ -85,6 +108,10 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
                             textView22.setVisibility(View.GONE);
                             imageView6.setVisibility(View.GONE);
+
+                            if (fileUri != null) {
+                                buttonAddNewProject.setTextColor(Color.parseColor("#0886F6"));
+                            }
                         }
                     }
 
@@ -130,16 +157,73 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
         newProjectShareWithEditText = view.findViewById(R.id.newProjectShareWithEditText);
         newProjectInputDescription = view.findViewById(R.id.newProjectInputDescription);
         switch1 = view.findViewById(R.id.switch1);
+        progressBar = view.findViewById(R.id.progressBar10);
+        scrollViewNewProject = view.findViewById(R.id.scrollViewNewProject);
 
-        NestedScrollView scrollView = view.findViewById(R.id.scrollViewNewProject);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        scrollViewNewProject.setNestedScrollingEnabled(true);
 
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(v);
-                bottomSheetBehavior.setDraggable(scrollY == 0);
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                view.getWindowVisibleDisplayFrame(rect);
+
+                keyboardHeight = view.getRootView().getHeight() - rect.height();
+
+                if (keyboardHeight > 200) {
+                    isVisible = true;
+                } else {
+                    isVisible = false;
+                    oldHeight = keyboardHeight;
+                }
             }
         });
+
+        newProjectShareWithEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+//                    scrollViewNewProject.smoothScrollTo(0,newProjectShareWithEditText.getBottom());
+                    scrollViewNewProject.post(()-> {
+                        scrollViewNewProject.smoothScrollTo(0, newProjectShareWithEditText.getBottom() + keyboardHeight);
+                    });
+                }
+                else {
+                    hideKeyboard(getActivity(), v);
+                }
+            }
+        });
+
+
+
+        newProjectShareWithEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (fileUri != null) {
+                    email = newProjectShareWithEditText.getText().toString().trim();
+                    buttonAddNewProject.setTextColor(Color.parseColor("#0886F6"));
+                }
+            }
+        });
+
+//        scrollViewNewProject.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(v);
+//                bottomSheetBehavior.setDraggable(scrollY == 0);
+//            }
+//        });
 
         // Set click listener on the back button to close the bottom sheet
         buttonBackNewProject.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +263,17 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                 }
             }
         });
+    }
+
+    private int onKeyboardVisibilityChanged() {
+        if (isVisible) {
+            System.out.println("Keyboard Height: " + keyboardHeight);
+            return keyboardHeight;
+        } else {
+            System.out.println("Keyboard is hidden");
+            return oldHeight;
+        }
+
     }
 
     private String getFileName(Uri uri) {
@@ -227,6 +322,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
     private void uploadFile(Uri uri) {
         if (uri != null && fileUri != null) {
+            progressBar.setVisibility(View.VISIBLE);
             VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(
                 Request.Method.POST,
                 DBConn.getURL("add_project.php"),
@@ -234,6 +330,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
+                            progressBar.setVisibility(View.GONE);
                             // System.out.println(response.headers.toString());
                             String responseData = new String(response.data);
                             System.out.println(responseData);
@@ -242,6 +339,29 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                             JSONObject obj = new JSONObject(responseData);
 
                             Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
+
+                            if (obj.getString("code").equals("Project added successfully.") || obj.getString("code").equals("Project added and shared successfully.")) {
+//                                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
+//                                .setSmallIcon(R.drawable.logo)
+//                                .setContentTitle("My notification")
+//                                .setContentText("Hello World!")
+//                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                                .setAutoCancel(true);
+
+
+
+//                                Intent intent = new Intent(getContext(), MainActivity.class);
+//                                PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                                mBuilder.setContentIntent(pendingIntent);
+//
+//                                NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//                                if (notificationManager != null) {
+//                                    notificationManager.notify(34234, mBuilder.build());
+//                                }
+
+                                dismiss();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -296,6 +416,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
             params.put("priority", (switch1.isChecked() ? "true" : "false"));
             params.put("share_with", email);
 
+            progressBar.setVisibility(View.VISIBLE);
             DBConn.postRequest(
                 DBConn.getURL("add_project.php"),
                 getContext(),
@@ -303,6 +424,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                 new DBConn.ResponseCallback() {
                     @Override
                     public void innerResponse(Object object) {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
                     }
                 },

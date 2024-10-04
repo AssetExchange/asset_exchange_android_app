@@ -26,6 +26,7 @@ import androidx.core.widget.NestedScrollView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
     ImageButton buttonAddAsset;
     ImageView imageView6;
     TextView textView22, addAssetAddedProjectsSelector;
+    ProgressBar progressBar;
 
     ProjectModel selectedProjectModel;
 
@@ -145,6 +147,7 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
         addAssetInputDescription = view.findViewById(R.id.addAssetInputDescription);
         imageView6 = view.findViewById(R.id.imageView6);
         textView22 = view.findViewById(R.id.textView22);
+        progressBar = view.findViewById(R.id.progressBar9);
 
         CardView newAssetAddedProjectsContainer = view.findViewById(R.id.newAssetAddedProjectsContainer);
         addAssetAddedProjectsSelector = view.findViewById(R.id.addAssetAddedProjectsSelector);
@@ -190,6 +193,7 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
                     System.out.printf(fileName);
 
                     if (selectedProjectModel != null) {
+                        progressBar.setVisibility(View.VISIBLE);
                         uploadFile(fileUri);
                     }
                     else {
@@ -255,6 +259,7 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
                 @Override
                 public void onResponse(NetworkResponse response) {
                     try {
+                        progressBar.setVisibility(View.GONE);
                         // System.out.println(response.headers.toString());
                         String responseData = new String(response.data);
                         System.out.println(responseData);
@@ -263,6 +268,10 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
                         JSONObject obj = new JSONObject(responseData);
 
                         Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
+
+                        if (obj.getString("code").equals("The asset has been added to the project.")) {
+                            dismiss();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
