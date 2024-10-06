@@ -115,12 +115,13 @@ public class SelectProjectFromAssetActivity extends AppCompatActivity {
 
                                  ProjectModel projectModel = new ProjectModel(
                                      jsonObject.getInt("project_id"),
-                                     jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
+                                     jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                                      jsonObject.getInt("project_owner_id"),
                                      jsonObject.getString("project_title"),
+                                     jsonObject.getString("project_description"),
+                                     jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                                      jsonObject.getBoolean("priority"),
-                                     jsonObject.getString("project_image_path"),
-                                     jsonObject.getString("project_description")
+                                     jsonObject.getString("project_image_path")
                                  );
 
                                  selectProjectModels.add(projectModel);

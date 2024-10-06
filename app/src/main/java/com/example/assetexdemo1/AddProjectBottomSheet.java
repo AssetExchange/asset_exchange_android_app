@@ -4,9 +4,11 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 import static com.example.assetexdemo1.MiscUtils.hideKeyboard;
 
+import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +28,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,6 +39,7 @@ import android.widget.ScrollView;
 import android.widget.Space;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -43,6 +47,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
 
@@ -61,6 +66,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +82,9 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
     Switch switch1;
     ProgressBar progressBar;
     NestedScrollView scrollViewNewProject;
+    CardView newProjectDueDateCardView;
+    String dateTimeSet;
+    TextView newProjectDueDateView;
 
     int oldHeight = 0;
     int keyboardHeight = 0;
@@ -159,6 +168,8 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
         switch1 = view.findViewById(R.id.switch1);
         progressBar = view.findViewById(R.id.progressBar10);
         scrollViewNewProject = view.findViewById(R.id.scrollViewNewProject);
+        newProjectDueDateCardView = view.findViewById(R.id.newProjectDueDateCardView);
+        newProjectDueDateView = view.findViewById(R.id.newProjectDueDateView);
 
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         scrollViewNewProject.setNestedScrollingEnabled(true);
@@ -186,7 +197,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                 if (hasFocus) {
 //                    scrollViewNewProject.smoothScrollTo(0,newProjectShareWithEditText.getBottom());
                     scrollViewNewProject.post(()-> {
-                        scrollViewNewProject.smoothScrollTo(0, newProjectShareWithEditText.getBottom() + keyboardHeight);
+                        scrollViewNewProject.smoothScrollTo(0, newProjectShareWithEditText.getBottom() + keyboardHeight + 12);
                     });
                 }
                 else {
@@ -195,7 +206,42 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
+        newProjectDueDateCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
 
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                dateTimeSet = String.format("%02d-%02d-%d 00:00:00", year, month + 1, dayOfMonth);
+                                newProjectDueDateView.setText(String.format("%02d-%02d-%d 12:00 AM", year, month + 1, dayOfMonth));
+                                // Now show TimePickerDialog
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                                        new TimePickerDialog.OnTimeSetListener() {
+                                            @Override
+                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                                // Handle selected date and time
+                                                dateTimeSet = String.format("%02d-%02d-%d %02d:%02d:00",
+                                                        year, month + 1, dayOfMonth, hourOfDay, minute);
+
+                                                newProjectDueDateView.setText(String.format("%02d-%02d-%d %2d:%02d",
+                                                        year, month + 1, dayOfMonth, hourOfDay % 12, minute) + (hourOfDay / 12 == 0 ? " AM" : " PM"));
+                                            }
+                                        }, hour, minute, true);
+                                timePickerDialog.show();
+                            }
+                        }, year, month, day);
+
+                datePickerDialog.show();
+            }
+        });
 
         newProjectShareWithEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -210,7 +256,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (fileUri != null) {
+                if (CustomInputValidation.validateEmail(newProjectShareWithEditText.getText().toString().trim())) { // fileUri != null ||
                     email = newProjectShareWithEditText.getText().toString().trim();
                     buttonAddNewProject.setTextColor(Color.parseColor("#0886F6"));
                 }
@@ -224,6 +270,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 //                bottomSheetBehavior.setDraggable(scrollY == 0);
 //            }
 //        });
+
 
         // Set click listener on the back button to close the bottom sheet
         buttonBackNewProject.setOnClickListener(new View.OnClickListener() {
@@ -392,6 +439,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     params.put("project_owner_id", sharedPref.getString("user_id", null));
                     params.put("project_title", newProjectInputTitle.getText().toString().trim());
                     params.put("project_description", newProjectInputDescription.getText().toString());
+                    params.put("due_date", (dateTimeSet == null || dateTimeSet.equals("0000-00-00 00:00:00") ? null : dateTimeSet));
                     params.put("priority", (switch1.isChecked() ? "true" : "false"));
                     params.put("share_with", email);
 
@@ -413,6 +461,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
             params.put("project_owner_id", sharedPref.getString("user_id", null));
             params.put("project_title", newProjectInputTitle.getText().toString().trim());
             params.put("project_description", newProjectInputDescription.getText().toString());
+            params.put("due_date", (dateTimeSet == null || dateTimeSet.equals("0000-00-00 00:00:00") ? "null" : dateTimeSet));
             params.put("priority", (switch1.isChecked() ? "true" : "false"));
             params.put("share_with", email);
 

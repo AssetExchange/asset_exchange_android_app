@@ -216,6 +216,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="20dp"
                             android:backgroundTint="#FFFFFF"
+                            android:clickable="true"
                             app:cardCornerRadius="15dp"
                             app:cardElevation="0dp">
 
@@ -239,14 +240,14 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="8dp"
-                                        app:srcCompat="@drawable/priority_icon" />
+                                        app:srcCompat="@drawable/date_icon" />
 
                                     <TextView
                                         android:id="@+id/textView27"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:text="Date" />
+                                        android:text="Due Date / Time" />
 
                                     <TextView
                                         android:id="@+id/newProjectDueDateView"

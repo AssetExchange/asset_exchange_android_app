@@ -117,6 +117,9 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            selectedProjectModel = getArguments().getParcelable("project_model");
+        }
     }
 
     @Override
@@ -151,6 +154,10 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
 
         CardView newAssetAddedProjectsContainer = view.findViewById(R.id.newAssetAddedProjectsContainer);
         addAssetAddedProjectsSelector = view.findViewById(R.id.addAssetAddedProjectsSelector);
+
+        if (selectedProjectModel != null) {
+            newAssetAddedProjectsContainer.setVisibility(View.GONE);
+        }
 
         newAssetAddedProjectsContainer.setOnClickListener(new View.OnClickListener() {
             @Override

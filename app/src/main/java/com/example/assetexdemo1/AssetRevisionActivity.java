@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +16,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.otaliastudios.zoom.ZoomLayout;
+
+import java.time.format.DateTimeFormatter;
+
 
 public class AssetRevisionActivity extends AppCompatActivity {
     AssetModel assetModel = null;
 
     ImageButton backAssetRevision;
-    ImageView assetRevisionLatestRevisionImage;
     Button assetRevisionAddRevisionButton;
+    ImageView assetRevisionLatestRevisionImage;
+
+    TextView assetRevisionAssetDateUploaded, assetRevisionAssetDateModified, assetRevisionAssetDescription, assetRevisionAssetName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,11 @@ public class AssetRevisionActivity extends AppCompatActivity {
         backAssetRevision = findViewById(R.id.backAssetRevision);
         assetRevisionLatestRevisionImage = findViewById(R.id.assetRevisionLatestRevisionImage);
         assetRevisionAddRevisionButton = findViewById(R.id.assetRevisionAddRevisionButton);
+
+        assetRevisionAssetDateUploaded = findViewById(R.id.assetRevisionAssetDateUploaded);
+        assetRevisionAssetDateModified = findViewById(R.id.assetRevisionAssetDateModified);
+        assetRevisionAssetDescription = findViewById(R.id.assetRevisionAssetDescription);
+        assetRevisionAssetName = findViewById(R.id.assetRevisionAssetName);
 
         assetModel = getIntent().getParcelableExtra("asset_model");
 
@@ -70,6 +82,11 @@ public class AssetRevisionActivity extends AppCompatActivity {
                 .centerInside()
                 .dontAnimate()
                 .into(assetRevisionLatestRevisionImage);
+
+            assetRevisionAssetDateUploaded.setText(assetModel.getDateCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm:ss a")));
+            assetRevisionAssetDateModified.setText(assetModel.getDateModified().format(DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm:ss a")));
+            assetRevisionAssetDescription.setText(assetModel.getAssetDescription());
+            assetRevisionAssetName.setText(assetModel.getAssetTitle());
 
             assetRevisionAddRevisionButton.setOnClickListener(new View.OnClickListener() {
                 @Override

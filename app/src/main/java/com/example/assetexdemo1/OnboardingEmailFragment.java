@@ -1,10 +1,14 @@
 package com.example.assetexdemo1;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -78,8 +82,12 @@ public class OnboardingEmailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_onboarding_email, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -87,81 +95,98 @@ public class OnboardingEmailFragment extends Fragment {
         super.onResume();
 
         if (this.getView() != null) {
-//            Button continueButton = this.getView().findViewById(R.id.fOEcontinueButton);
+            SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
 
-            fOEemailEditText = getView().findViewById(R.id.fOEemailEditText);
-            fOEcontinueButton = getView().findViewById(R.id.fOEcontinueButton);
-            fOEprivacyTV = getView().findViewById(R.id.fOEprivacyTV);
+            if (sharedPref.getBoolean("logged_in", false)) {
+                Bundle bundle = new Bundle();
+                bundle.getString("email");
+                bundle.getString("session_id");
 
-            NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
+                Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
+                startActivity(intent, bundle);
 
-            fOEemailEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (getActivity() != null) {
+                    getActivity().finish();
                 }
+            }
+            else {
+                // Button continueButton = this.getView().findViewById(R.id.fOEcontinueButton);
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                fOEemailEditText = getView().findViewById(R.id.fOEemailEditText);
+                fOEcontinueButton = getView().findViewById(R.id.fOEcontinueButton);
+                fOEprivacyTV = getView().findViewById(R.id.fOEprivacyTV);
 
-                }
+                NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.activity_onboarding_nav));
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    System.out.println(s.toString() + CustomInputValidation.validateEmail(s.toString().trim()));
-                    if (CustomInputValidation.validateEmail(s.toString().trim())) {
-                        fOEcontinueButton.setClickable(true);
-                        fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundEnabled, null)));
-                        email = s.toString().trim();
+                fOEemailEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
                     }
-                    else {
-                        fOEcontinueButton.setClickable(false);
-                        fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundDisabled, null)));
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                     }
-                }
-            });
-            fOEcontinueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
-                    // startActivity(intent);
 
-//                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        System.out.println(s.toString() + CustomInputValidation.validateEmail(s.toString().trim()));
+                        if (CustomInputValidation.validateEmail(s.toString().trim())) {
+                            fOEcontinueButton.setClickable(true);
+                            fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundEnabled, null)));
+                            email = s.toString().trim();
+                        }
+                        else {
+                            fOEcontinueButton.setClickable(false);
+                            fOEcontinueButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorOnboardingButtonBackgroundDisabled, null)));
+                        }
+                    }
+                });
+                fOEcontinueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Intent intent = new Intent(getContext(), MainActivity.class); // MainActivity.class
+                        // startActivity(intent);
 
-                    if (CustomInputValidation.validateEmail(email)) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email", email);
+    //                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment);
 
-                        DBConn.getRequest(
-                                DBConn.getRecordURL("users?filter=email,eq," + email + "&include=user_id,email"),
-                                getContext(),
-                                new DBConn.ResponseCallback() {
-                                    @Override
-                                    public void innerResponse(Object object) {
-                                        JSONArray jsonArray = (JSONArray) object;
-                                        // If one user with such email exists
-                                        if (!jsonArray.isNull(0) && jsonArray.length() == 1) {
-                                            navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment, bundle);
+                        if (CustomInputValidation.validateEmail(email)) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("email", email);
+
+                            DBConn.getRequest(
+                                    DBConn.getRecordURL("users?filter=email,eq," + email + "&include=user_id,email"),
+                                    getContext(),
+                                    new DBConn.ResponseCallback() {
+                                        @Override
+                                        public void innerResponse(Object object) {
+                                            JSONArray jsonArray = (JSONArray) object;
+                                            // If one user with such email exists
+                                            if (!jsonArray.isNull(0) && jsonArray.length() == 1) {
+                                                navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment, bundle);
+                                            }
+                                            else {
+                                                Toast.makeText(getContext(), "Creating new account...", Toast.LENGTH_SHORT).show();
+                                                navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingFullNameFragment, bundle);
+                                            }
                                         }
-                                        else {
-                                            Toast.makeText(getContext(), "Creating new account...", Toast.LENGTH_SHORT).show();
-                                            navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingFullNameFragment, bundle);
-                                        }
-                                    }
-                                },
-                                "Unable to connect to the database",
-                                "Unable to parse API response"
-                        );
+                                    },
+                                    "Unable to connect to the database",
+                                    "Unable to parse API response"
+                            );
+                        }
                     }
-                }
-            });
+                });
 
-            fOEprivacyTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingTermsFragment);
-                }
-            });
+                fOEprivacyTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingTermsFragment);
+                    }
+                });
+            }
+
         }
     }
 }

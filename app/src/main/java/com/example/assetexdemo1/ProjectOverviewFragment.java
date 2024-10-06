@@ -119,6 +119,10 @@ public class ProjectOverviewFragment extends Fragment {
                         if (object instanceof JSONArray) {
                             System.out.println(object);
 
+                            if (((JSONArray) object).length() < 1) {
+                                loading[0] = true;
+                            }
+
                             List<ProjectModel> dataList = new ArrayList<>();
 
                             for (int i = 0; i < ((JSONArray) object).length(); i++) {
@@ -129,9 +133,10 @@ public class ProjectOverviewFragment extends Fragment {
                                         jsonObject.isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
                                         jsonObject.getInt("project_owner_id"),
                                         jsonObject.getString("project_title"),
+                                        jsonObject.getString("project_description"),
+                                        jsonObject.isNull("due_date") ? null : LocalDateTime.parse(jsonObject.getString("due_date"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
                                         jsonObject.getBoolean("priority"),
-                                        jsonObject.getString("project_image_path"),
-                                        jsonObject.getString("project_description")
+                                        jsonObject.getString("project_image_path")
                                     );
 
                                     projectOverviewModels.add(projectModel);
@@ -173,18 +178,26 @@ public class ProjectOverviewFragment extends Fragment {
                     @Override
                     public void innerResponse(Object object, Context context) {
                         if (object instanceof JSONArray) {
+                            if (((JSONArray) object).length() < 1) {
+                                loading[1] = true;
+                            }
+                            if (loading[0] == true && loading[1] == true) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+
                             for (int i = 0; i < ((JSONArray) object).length(); i++) {
                                 try {
                                     JSONObject jsonObject = ((JSONArray) object).getJSONObject(i);
 
                                     ProjectModel projectModel = new ProjectModel(
                                         jsonObject.getJSONObject("project_id").getInt("project_id"),
-                                        jsonObject.getJSONObject("project_id").isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getJSONObject("project_id").getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss")),
+                                        jsonObject.getJSONObject("project_id").isNull("date_created") ? null : LocalDateTime.parse(jsonObject.getJSONObject("project_id").getString("date_created"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                                         jsonObject.getJSONObject("project_id").getInt("project_owner_id"),
                                         jsonObject.getJSONObject("project_id").getString("project_title"),
+                                        jsonObject.getJSONObject("project_id").getString("project_description"),
+                                        jsonObject.getJSONObject("project_id").isNull("due_date") ? null : LocalDateTime.parse(jsonObject.getJSONObject("project_id").getString("due_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                                         jsonObject.getJSONObject("project_id").getBoolean("priority"),
-                                        jsonObject.getJSONObject("project_id").getString("project_image_path"),
-                                        jsonObject.getJSONObject("project_id").getString("project_description")
+                                        jsonObject.getJSONObject("project_id").getString("project_image_path")
                                     );
 
                                     projectOverviewModels.add(projectModel);
@@ -193,16 +206,19 @@ public class ProjectOverviewFragment extends Fragment {
                                     throw new RuntimeException(e);
                                 }
                             }
-                            Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
-                               @Override
-                               public int compare(ProjectModel lhs, ProjectModel rhs) {
-                                   int a = Boolean.compare(rhs.isPriority(), lhs.isPriority());
-                                   if (a != 0) {
-                                       return a;
+
+                            if (((JSONArray) object).length() >= 1) {
+                                Collections.sort(projectOverviewModels, new Comparator<ProjectModel>() {
+                                   @Override
+                                   public int compare(ProjectModel lhs, ProjectModel rhs) {
+                                       int a = Boolean.compare(rhs.isPriority(), lhs.isPriority());
+                                       if (a != 0) {
+                                           return a;
+                                       }
+                                       return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
                                    }
-                                   return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
-                               }
-                            });
+                                });
+                            }
 
                             loading[1] = true;
                             if (loading[0] == true && loading[1] == true) {

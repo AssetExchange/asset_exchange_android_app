@@ -14,24 +14,36 @@ public class ProjectModel implements Parcelable {
     private String projectTitle = "";
     private String projectDescription = "";
     private boolean priority = false;
+    private LocalDateTime dueDate;
     private String projectImagePath = null;
 
-    public ProjectModel(int projectId, LocalDateTime dateCreated, int projectOwnerId, String projectTitle, boolean priority, String projectImagePath, String projectDescription) {
-        this.projectId = projectId;
-        this.dateCreated = dateCreated;
-        this.projectOwnerId = projectOwnerId;
-        this.projectTitle = projectTitle;
-        this.priority = priority;
-        this.projectImagePath = projectImagePath;
-        this.projectDescription = projectDescription;
-    }
+//    public ProjectModel(int projectId, LocalDateTime dateCreated, int projectOwnerId, String projectTitle, boolean priority, String projectImagePath, String projectDescription) {
+//        this.projectId = projectId;
+//        this.dateCreated = dateCreated;
+//        this.projectOwnerId = projectOwnerId;
+//        this.projectTitle = projectTitle;
+//        this.projectDescription = projectDescription;
+//        this.priority = priority;
+//        this.projectImagePath = projectImagePath;
+//    }
 
-    public ProjectModel(int projectId, LocalDateTime dateCreated, int projectOwnerId, String projectTitle, String projectDescription, boolean priority, String projectImagePath) {
+//    public ProjectModel(int projectId, LocalDateTime dateCreated, int projectOwnerId, String projectTitle, String projectDescription, boolean priority, String projectImagePath) {
+//        this.projectId = projectId;
+//        this.dateCreated = dateCreated;
+//        this.projectOwnerId = projectOwnerId;
+//        this.projectTitle = projectTitle;
+//        this.projectDescription = projectDescription;
+//        this.priority = priority;
+//        this.projectImagePath = projectImagePath;
+//    }
+
+    public ProjectModel(int projectId, LocalDateTime dateCreated, int projectOwnerId, String projectTitle, String projectDescription, LocalDateTime dueDate, boolean priority, String projectImagePath) {
         this.projectId = projectId;
         this.dateCreated = dateCreated;
         this.projectOwnerId = projectOwnerId;
         this.projectTitle = projectTitle;
         this.projectDescription = projectDescription;
+        this.dueDate = dueDate;
         this.priority = priority;
         this.projectImagePath = projectImagePath;
     }
@@ -76,6 +88,14 @@ public class ProjectModel implements Parcelable {
         this.projectDescription = projectDescription;
     }
 
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public boolean isPriority() {
         return priority;
     }
@@ -104,6 +124,7 @@ public class ProjectModel implements Parcelable {
         dest.writeInt(projectOwnerId);
         dest.writeString(projectTitle);
         dest.writeString(projectDescription);
+        dest.writeString(dueDate == null ? null : dueDate.toString());
         dest.writeInt(priority ? 1 : 0);
         dest.writeString(projectImagePath);
     }
@@ -126,6 +147,8 @@ public class ProjectModel implements Parcelable {
         this.projectOwnerId = in.readInt();
         this.projectTitle = in.readString();
         this.projectDescription = in.readString();
+        String due = in.readString();
+        this.dueDate = (due == null ? null : LocalDateTime.parse(due));
         this.priority = (in.readInt() == 1);
         this.projectImagePath = in.readString();
     }

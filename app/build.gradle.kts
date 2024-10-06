@@ -49,4 +49,5 @@ dependencies {
     implementation(libs.viewpager2)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.otaliastudios:zoomlayout:1.9.0")
 }

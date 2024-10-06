@@ -51,6 +51,7 @@ public class ProjectItemViewActivity extends AppCompatActivity {
     ConstraintLayout projectItemViewLatestAssetConstraintLayout;
     ImageButton projectItemViewBackButton;
     ImageButton projectItemViewActivityButton;
+    Button projectItemViewUploadAssetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class ProjectItemViewActivity extends AppCompatActivity {
         projectItemViewLatestAssetConstraintLayout = findViewById(R.id.projectItemViewLatestAssetConstraintLayout);
         projectItemViewBackButton = findViewById(R.id.projectItemViewBackButton);
         projectItemViewActivityButton = findViewById(R.id.projectItemViewActivityButton);
-
+        projectItemViewUploadAssetButton = findViewById(R.id.projectItemViewUploadAssetButton);
 
         projectModel = getIntent().getParcelableExtra("selected_project");
 
@@ -114,6 +115,18 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                     Intent intent = new Intent(ProjectItemViewActivity.this, ProjectBasedActivityViewActivity.class);
                     intent.putExtra("project_model", projectModel);
                     startActivity(intent);
+                }
+            });
+
+            projectItemViewUploadAssetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("project_model", projectModel);
+
+                    SendAssetBottomSheet bottomSheet = new SendAssetBottomSheet();
+                    bottomSheet.setArguments(bundle);
+                    bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
                 }
             });
 
@@ -241,16 +254,20 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                 }
             }, "Unable to connect to the database",
                 "Unable to parse API response");
+
             projectItemViewProjectDescription.setText(projectModel.getProjectDescription());
             projectItemViewProjectDateChip.setText(projectModel.getDateCreated().format(DateTimeFormatter.ofPattern("LLL. dd, uuuu")));
 
-            Glide.with(this)
-                .load(DBConn.getURL("filegator/repository/user/" + projectModel.getProjectImagePath()))
-                .apply(
-                    new RequestOptions().placeholder(android.R.drawable.screen_background_dark)
-                )
-                .fitCenter()
-                .into(projectItemViewProjectPicture);
+            if (projectModel.getProjectImagePath() != null || !projectModel.getProjectImagePath().isEmpty()) {
+                Glide.with(this)
+                    .load(DBConn.getURL("filegator/repository/user/" + projectModel.getProjectImagePath()))
+                    .apply(
+                        new RequestOptions().placeholder(android.R.drawable.screen_background_light_transparent)
+                    )
+                    .fitCenter()
+                    .into(projectItemViewProjectPicture);
+            }
+
         }
 
     }

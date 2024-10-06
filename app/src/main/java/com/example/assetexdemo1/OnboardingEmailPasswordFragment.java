@@ -228,6 +228,7 @@ public class OnboardingEmailPasswordFragment extends Fragment {
 
                                                     Intent intent = new Intent(getActivity(), MainActivity.class); // MainActivity.class
                                                     startActivity(intent, bundle);
+                                                    getActivity().finish();
                                                 }
 
                                             } catch (JSONException e) {
