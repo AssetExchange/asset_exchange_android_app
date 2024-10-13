@@ -19,16 +19,21 @@ public class AssetExchangeApp extends Application {
 
         // Force light mode for the entire app
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        createNotificationChannel();
     }
 
-//    private void createNotificationChannel() {
-//        NotificationChannel serviceChannel = new NotificationChannel(
-//                "ASSET_EXCHANGE_NOTIFICATIONS",
-//                "Asset Exchange",
-//                NotificationManager.IMPORTANCE_DEFAULT
-//        );
-//
-//        NotificationManager manager = getSystemService(NotificationManager.class);
-//        manager.createNotificationChannel(serviceChannel);
-//    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                "ASSET_EXCHANGE_NOTIFICATIONS",
+                "Asset Exchange",
+                NotificationManager.IMPORTANCE_DEFAULT
+            );
+
+            serviceChannel.setDescription("Asset Exchange Notification");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
 }

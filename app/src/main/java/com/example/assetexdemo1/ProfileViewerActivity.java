@@ -70,7 +70,7 @@ public class ProfileViewerActivity extends AppCompatActivity {
             profileViewerSaveChangesButton = findViewById(R.id.profileViewerSaveChangesButton);
             progressBar = findViewById(R.id.progressBar5);
 
-            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
             // profileViewerName.setText(sharedPref.getString("full_name", "Your Name"));
             // profileViewerEmail.setText(sharedPref.getString("email", "Email Address"));
 
@@ -91,7 +91,7 @@ public class ProfileViewerActivity extends AppCompatActivity {
 
             profileViewerName.setText(userModel.getFullName());
             profileViewerEmail.setText(userModel.getEmail());
-            profileViewerRoleChip.setText(roles[userModel.getRoleId() + 1]);
+            profileViewerRoleChip.setText(roles[userModel.getRoleId() - 1]);
 
             progressBar.setVisibility(View.GONE);
 

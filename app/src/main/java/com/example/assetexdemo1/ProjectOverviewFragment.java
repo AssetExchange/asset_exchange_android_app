@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 
@@ -69,6 +70,8 @@ public class ProjectOverviewFragment extends Fragment {
         return fragment;
     }
 
+    ArrayList<ProjectModel> backupProjectOverviewModels;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,8 @@ public class ProjectOverviewFragment extends Fragment {
             allProjectsRV.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
 
             SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+            SearchView searchBarProjectOverview = getView().findViewById(R.id.searchBarProjectOverview);
 
             final boolean[] loading = new boolean[] {false, false};
 
@@ -243,9 +248,35 @@ public class ProjectOverviewFragment extends Fragment {
 
             Spinner spinner = getView().findViewById(R.id.spinner);
             String[] items = new String[] {"Name", "Date Created"};
-            ArrayAdapter<String> sortByAdapter = new ArrayAdapter<String>(getView().getContext(), android.R.layout.simple_spinner_item, items);
 
+            ArrayAdapter<String> sortByAdapter = new ArrayAdapter<String>(getView().getContext(), R.layout.spinner_dropdown_item, items);
             spinner.setAdapter(sortByAdapter);
+
+            searchBarProjectOverview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (!projectOverviewModels.isEmpty()) {
+                        if (backupProjectOverviewModels == null) {
+                            backupProjectOverviewModels = (ArrayList<ProjectModel>) projectOverviewModels.clone();
+                        }
+
+                        projectOverviewModels.removeIf(x -> !x.getProjectTitle().toLowerCase().contains(query.toLowerCase()));
+                        projectOverviewAdapter.notifyDataSetChanged();
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (newText.isEmpty() && backupProjectOverviewModels != null) {
+                        projectOverviewModels.clear();
+                        projectOverviewModels.addAll(backupProjectOverviewModels);
+                        projectOverviewAdapter.notifyDataSetChanged();
+                    }
+                    return false;
+                }
+            });
+
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -258,7 +289,7 @@ public class ProjectOverviewFragment extends Fragment {
                                 if (a != 0) {
                                     return a;
                                 }
-                                return rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
+                                return -1 * rhs.getProjectTitle().compareToIgnoreCase(lhs.getProjectTitle());
                             }
                         });
                     }

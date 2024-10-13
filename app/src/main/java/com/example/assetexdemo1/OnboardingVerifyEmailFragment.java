@@ -142,6 +142,7 @@ public class OnboardingVerifyEmailFragment extends Fragment {
                                                     prefs.edit().putString("session_id", json.getString("session_id")).commit();
                                                     prefs.edit().putString("email", json.getString("email")).commit();
                                                     prefs.edit().putString("full_name", json.getString("full_name")).commit();
+                                                    prefs.edit().putString("role_id", json.getString("role_id")).commit();
 
 
                                                     bundle.putString("session_id", json.getString("session_id"));

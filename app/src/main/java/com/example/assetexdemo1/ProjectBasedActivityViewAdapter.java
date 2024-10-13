@@ -22,7 +22,7 @@ public class ProjectBasedActivityViewAdapter extends FragmentStateAdapter {
             return new ProjectAccessFragment(projectModel);
         }
         else {
-            return new ProjectRevisionsFragment();
+            return new ProjectRevisionsFragment(projectModel);
         }
     }
 

@@ -36,6 +36,10 @@ public class DBConn {
         return connectionHost + "api.php/records/" + path;
     }
 
+    public static String getFileURL(String path) {
+        return connectionHost + "filegator/repository/user/" + path;
+    }
+
     public static void getRequest(String url, Context context, ResponseCallback responseCallback, String onErrorString, String onErrorString2) {
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -161,7 +165,8 @@ public class DBConn {
             }
             catch (Exception e) {
                 if (e.getMessage() != null && !e.getMessage().equals("")) {
-                    Toast.makeText(context, onErrorString + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(context, onErrorString + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 else if (onErrorString != null && !onErrorString.equals("")) {
                     Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();

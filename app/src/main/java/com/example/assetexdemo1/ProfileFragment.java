@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
     private Switch profileNotificationSwitch;
     private Button profileLogoutButton;
     LinearLayout profileUserProfileContainer;
+    LinearLayout profileFragmentShareProfile;
     ImageView profileFragmentProfilePicture;
     ProgressBar progressBar;
     TextView profileFragmentFullName, profileFragmentEmailAddress;
@@ -101,6 +102,7 @@ public class ProfileFragment extends Fragment {
             profileFragmentFullName = getView().findViewById(R.id.profileFragmentFullName);
             profileFragmentEmailAddress = getView().findViewById(R.id.profileFragmentEmailAddress);
             profileUserProfileContainer = getView().findViewById(R.id.profileFragmentProfileContainer);
+            profileFragmentShareProfile = getView().findViewById(R.id.profileFragmentShareProfile);
 
             SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -156,6 +158,14 @@ public class ProfileFragment extends Fragment {
                         "Unable to connect to the database",
                         "Unable to parse API response"
                     );
+                }
+            });
+
+            profileFragmentShareProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ProfileSharingOptionsActivity.class);
+                    startActivity(intent);
                 }
             });
 
@@ -218,6 +228,7 @@ public class ProfileFragment extends Fragment {
                     dialog.show();
                 }
             });
+
         }
     }
 }

@@ -69,147 +69,240 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        app:layout_constraintBottom_toTopOf="@id/assetRevisionAddRevisionButton"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayoutAssetRevision"
-        tools:layout_editor_absoluteX="20dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutAssetRevision">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView31"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:text="Info"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginBottom="36dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Asset Name:"
+                    android:layout_marginBottom="18dp"
+                    android:text="Latest version"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/assetRevisionLatestRevisionImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/rounded_card"
+                    android:backgroundTint="@color/transparent"
+                    android:scaleType="centerInside"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:text="Info"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="Name"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/assetRevisionAssetName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Asset Name"
+                            android:textSize="16sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="Uploaded"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/assetRevisionAssetDateUploaded"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            android:textSize="16sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView36"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="Updated"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/assetRevisionAssetDateModified"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            android:textSize="16sp" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Description"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/assetRevisionAssetName"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/assetRevisionAssetDescription"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Asset Name" />
-            </LinearLayout>
+                    android:layout_marginBottom="18dp"
+                    android:text="Asset Description"
+                    android:textSize="16sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/assetRevisionRevertButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:backgroundTint="@color/transparent"
+                    android:paddingVertical="10dp"
+                    android:text="Revert version"
+                    android:textColor="@color/colorOnboardingButtonBackgroundEnabled"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/version_control_icon"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/colorOnboardingButtonBackgroundEnabled"
+                    app:strokeColor="@color/colorOnboardingButtonBackgroundEnabled"
+                    app:strokeWidth="1dp" />
 
                 <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView37"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Date Uploaded:"
+                    android:layout_marginBottom="18dp"
+                    android:text="Version history"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/assetRevisionAssetDateUploaded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date" />
+                <ProgressBar
+                    android:id="@+id/progressBar15"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/assetRevisionRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="1"
+                    android:visibility="visible">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:orientation="horizontal">
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="36dp" />
 
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Last Modified Date:"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/assetRevisionAssetDateModified"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/assetRevisionAssetDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:text="Asset Description" />
-
-            <TextView
-                android:id="@+id/textView30"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:text="Latest version"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/assetRevisionLatestRevisionImage"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_card"
-                android:backgroundTint="@color/transparent"
-                android:scaleType="centerInside"
-                tools:src="@tools:sample/backgrounds/scenic" />
-
-            <Button
-                android:id="@+id/assetRevisionRevertButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
-                android:text="Revert revision"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/assetRevisionRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/assetRevisionAddRevisionButton"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="#F8523C"
-        android:contentDescription="Add asset to project"
-        android:elevation="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
+        android:paddingVertical="10dp"
         android:text="Add revision"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp"
-        app:cornerRadius="8dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/assetRevisionAddCommentLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="26dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/assetRevisionAddCommentEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_input"
+            android:backgroundTint="@color/colorOnboardingEditTextBackground"
+            android:ems="10"
+            android:hint="Add comment"
+            android:inputType="text|textMultiLine"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:textColor="@color/colorOnboardingEditTextForeground"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/assetRevisionAddCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:paddingHorizontal="12dp"
+            android:src="@drawable/ic_add_comment" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

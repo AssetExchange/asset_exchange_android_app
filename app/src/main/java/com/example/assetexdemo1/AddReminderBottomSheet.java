@@ -1,10 +1,15 @@
 package com.example.assetexdemo1;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +28,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.assetexdemo1.databinding.AddReminderBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -30,8 +37,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AddReminderBottomSheet extends BottomSheetDialogFragment {
     Button buttonBackNewReminder, buttonAddNewReminder;
@@ -168,7 +179,60 @@ public class AddReminderBottomSheet extends BottomSheetDialogFragment {
                             @Override
                             public void innerResponse(Object object) {
                                 Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
+
                                 if (object.toString().equals("Reminder added successfully.")) {
+                                    if (dateTimeSet != null) {
+                                        System.out.println(dateTimeSet);
+
+                                        SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+                                        if (!sharedPref.getBoolean("allow_notifications", false)) {
+                                            int permissionState = 0;
+
+                                            SharedPreferences.Editor editor = sharedPref.edit();
+
+                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                                permissionState = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS);
+                                                // If the permission is not granted, request it.
+                                                if (permissionState == PackageManager.PERMISSION_DENIED) {
+                                                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+                                                    if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                                                        editor.putBoolean("allow_notifications", true);
+                                                        editor.apply();
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        LocalDateTime dateTime = LocalDateTime.parse(dateTimeSet, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault()));
+
+                                        long triggerTimeNow = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+                                        long triggerTimeTomorrow = triggerTimeNow + 24 * 60 * 60 * 1000;;
+
+                                        if (triggerTimeNow >= System.currentTimeMillis()) {
+                                            // Schedule the notification
+                                            Intent intentNow = new Intent(getContext(), NotificationReceiver.class);
+                                            intentNow.putExtra("title", "Task Due Reminder");
+                                            intentNow.putExtra("message", "Your task is due now");
+
+                                            Intent intentTomorrow = new Intent(getContext(), NotificationReceiver.class);
+                                            intentTomorrow.putExtra("title", "Task Due Reminder");
+                                            intentTomorrow.putExtra("message", "Your task is due tomorrow");
+
+                                            PendingIntent pendingIntentNow = PendingIntent.getBroadcast(AssetExchangeApp.context, 0, intentNow, PendingIntent.FLAG_IMMUTABLE);
+
+                                            PendingIntent pendingIntentTomorrow = PendingIntent.getBroadcast(AssetExchangeApp.context, 0, intentTomorrow, PendingIntent.FLAG_IMMUTABLE);
+
+                                            AlarmManager alarmManager = (AlarmManager) AssetExchangeApp.context.getSystemService(Context.ALARM_SERVICE);
+
+                                            if (alarmManager != null) {
+                                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeNow, pendingIntentNow);
+                                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeTomorrow, pendingIntentTomorrow);
+                                            }
+                                        }
+
+
+                                    }
                                     updateData();
                                 }
                                 else {

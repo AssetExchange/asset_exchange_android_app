@@ -4,6 +4,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 import static com.example.assetexdemo1.MiscUtils.hideKeyboard;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,6 +13,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -48,7 +50,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.android.volley.NetworkResponse;
@@ -65,9 +69,13 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddProjectBottomSheet extends BottomSheetDialogFragment {
@@ -112,8 +120,10 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
                             Glide.with(AddProjectBottomSheet.this)
                                 .load(fileUri)
-                                .fitCenter()
+                                .centerCrop()
                                 .into(buttonAddProject);
+
+                            buttonAddProject.setPadding(0,0,0,0);
 
                             textView22.setVisibility(View.GONE);
                             imageView6.setVisibility(View.GONE);
@@ -406,6 +416,8 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 //                                    notificationManager.notify(34234, mBuilder.build());
 //                                }
 
+                                addNotification();
+
                                 dismiss();
                             }
 
@@ -417,8 +429,13 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e("Got Error", "" + error.getMessage());
+                        if (error != null && error.getMessage() != null) {
+                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.e("Got Error", "" + error.getMessage());
+                        }
+                        else {
+                            Toast.makeText(getContext(), "An error occurred while creating your project. Please try again.", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             ) {
@@ -475,11 +492,71 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     public void innerResponse(Object object) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
+
+                        if (object.toString().equals("Project added successfully.") || object.toString().equals("Project added and shared successfully.")) {
+                            addNotification();
+                            dismiss();
+                        }
+
                     }
                 },
                 "Unable to connect to the database",
                 "Unable to parse API response"
             );
+        }
+    }
+
+    private void addNotification() {
+        if (dateTimeSet != null) {
+
+            SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+            if (!sharedPref.getBoolean("allow_notifications", false)) {
+                int permissionState = 0;
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                    permissionState = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS);
+                    // If the permission is not granted, request it.
+                    if (permissionState == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+                        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                            editor.putBoolean("allow_notifications", true);
+                            editor.apply();
+                        }
+                    }
+                }
+            }
+
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeSet, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault()));
+
+            long triggerTimeNow = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            long triggerTimeTomorrow = triggerTimeNow + 24 * 60 * 60 * 1000;;
+
+            if (triggerTimeNow >= System.currentTimeMillis()) {
+                // Schedule the notification
+                Intent intentNow = new Intent(getContext(), NotificationReceiver.class);
+                intentNow.putExtra("title", "Project Due Reminder");
+                intentNow.putExtra("message", "Your project " + newProjectInputTitle.getText().toString().trim() + " is due now");
+
+                Intent intentTomorrow = new Intent(getContext(), NotificationReceiver.class);
+                intentTomorrow.putExtra("title", "Project Due Reminder");
+                intentTomorrow.putExtra("message", "Your project " + newProjectInputTitle.getText().toString().trim() + " is due tomorrow");
+
+                PendingIntent pendingIntentNow = PendingIntent.getBroadcast(AssetExchangeApp.context, 0, intentNow, PendingIntent.FLAG_IMMUTABLE);
+
+                PendingIntent pendingIntentTomorrow = PendingIntent.getBroadcast(AssetExchangeApp.context, 0, intentTomorrow, PendingIntent.FLAG_IMMUTABLE);
+
+                AlarmManager alarmManager = (AlarmManager) AssetExchangeApp.context.getSystemService(Context.ALARM_SERVICE);
+
+                if (alarmManager != null) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeNow, pendingIntentNow);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeTomorrow, pendingIntentTomorrow);
+                }
+            }
+
+
         }
     }
 }

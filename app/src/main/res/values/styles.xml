@@ -24,4 +24,8 @@
 <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:popupBackground">@drawable/rounded_card_small_radius_gray</item>
+    </style>
 </resources>

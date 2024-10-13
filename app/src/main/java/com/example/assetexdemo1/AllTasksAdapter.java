@@ -3,6 +3,7 @@ package com.example.assetexdemo1;
 import static android.text.format.DateUtils.*;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.timepicker.TimeFormat;
@@ -54,6 +56,10 @@ public class AllTasksAdapter extends RecyclerView.Adapter<AllTasksAdapter.ViewHo
         TasksModel model = taskModels.get(position);
 
         holder.taskRadio.setText(model.getTaskTitle());
+
+        if (model.getTaskDescription() != null && !model.getTaskDescription().isEmpty()) {
+            holder.taskDescription.setText(model.getTaskDescription());
+        }
         holder.taskRadio.setChecked(model.isCompleted());
 
         if (model.getDueDate() != null) {
@@ -108,24 +114,43 @@ public class AllTasksAdapter extends RecyclerView.Adapter<AllTasksAdapter.ViewHo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    model.setCompleted();
-                    holder.taskRadio.setPaintFlags(holder.taskRadio.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    JSONObject params = new JSONObject();
-                    try {
-                        params.put("date_completed", DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss").format(LocalDateTime.now()));
-                        DBConn.putRequest(DBConn.getRecordURL("tasks/" + model.getTaskId()), buttonView.getContext(), params, new DBConn.ResponseCallback() {
-                                @Override
-                                public void innerResponse(Object object) {
-                                    removeItem(holder.getBindingAdapterPosition());
+                    builder.setTitle("Complete Task")
+                        .setMessage("Do you confirm to mark this task as completed?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                model.setCompleted();
+                                holder.taskRadio.setPaintFlags(holder.taskRadio.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                JSONObject params = new JSONObject();
+                                try {
+                                    params.put("date_completed", DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+                                    DBConn.putRequest(DBConn.getRecordURL("tasks/" + model.getTaskId()), buttonView.getContext(), params, new DBConn.ResponseCallback() {
+                                            @Override
+                                            public void innerResponse(Object object) {
+                                                removeItem(holder.getBindingAdapterPosition());
+                                            }
+                                        },
+                                        "Unable to connect to the database",
+                                        "Unable to parse API response"
+                                    );
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            },
-                            "Unable to connect to the database",
-                            "Unable to parse API response"
-                        );
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                holder.taskRadio.setChecked(false);
+                                dialog.dismiss();
+                            }
+                        }
+                    );
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
                 else {
                     model.setDateCompleted(null);
@@ -149,11 +174,14 @@ public class AllTasksAdapter extends RecyclerView.Adapter<AllTasksAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final CheckBox taskRadio;
         private final TextView taskDueDate;
+        private final TextView taskDescription;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             taskRadio = itemView.findViewById(R.id.taskRadio);
             taskDueDate = itemView.findViewById(R.id.dateDueTextView);
+            taskDescription = itemView.findViewById(R.id.taskDescription);
         }
     }
 }

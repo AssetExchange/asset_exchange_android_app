@@ -1,5 +1,7 @@
 package com.example.assetexdemo1;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -41,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_menu_command);
+
+        SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+        if (sharedPref.getString("role_id", "4").equals("2")) {
+            bottomNavigationView.getMenu().findItem(R.id.bottom_nav_menu_send).setVisible(false);
+        }
+
         bottomNavigationView.setItemIconTintList(null);
     }
 

@@ -2,11 +2,15 @@ package com.example.assetexdemo1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +30,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.material.chip.Chip;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -34,7 +37,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public class ProjectItemViewActivity extends AppCompatActivity {
     ProjectModel projectModel;
@@ -42,7 +44,9 @@ public class ProjectItemViewActivity extends AppCompatActivity {
     TextView projectItemViewProjectTitle;
     TextView projectItemViewProjectOwner;
     TextView projectItemViewProjectDescription;
-    Chip projectItemViewProjectDateChip;
+    TextView projectItemViewProjectStartDateTV;
+    Chip projectItemViewProjectStartDateChip;
+    Chip projectItemViewProjectDueDateChip;
     Chip projectItemViewProjectPriorityChip;
     Chip projectItemViewProjectShareChip;
     ImageView projectItemViewProjectPicture;
@@ -67,9 +71,9 @@ public class ProjectItemViewActivity extends AppCompatActivity {
         projectItemViewProjectTitle = findViewById(R.id.projectItemViewProjectTitle);
         projectItemViewProjectOwner = findViewById(R.id.projectItemViewProjectOwner);
         projectItemViewProjectDescription = findViewById(R.id.projectItemViewProjectDescription);
-        projectItemViewProjectDateChip = findViewById(R.id.projectItemViewProjectDateChip);
+        projectItemViewProjectStartDateTV = findViewById(R.id.projectItemViewProjectStartDateTV);
+        projectItemViewProjectDueDateChip = findViewById(R.id.projectItemViewProjectDueDateChip);
         projectItemViewProjectPriorityChip = findViewById(R.id.projectItemViewProjectPriorityChip);
-        projectItemViewProjectShareChip = findViewById(R.id.projectItemViewProjectShareChip);
         projectItemViewProjectPicture = findViewById(R.id.projectItemViewProjectPicture);
         projectItemViewLatestAsset = findViewById(R.id.projectItemViewLatestAsset);
         projectItemViewLatestAssetText = findViewById(R.id.projectItemViewLatestAssetText);
@@ -79,6 +83,12 @@ public class ProjectItemViewActivity extends AppCompatActivity {
         projectItemViewUploadAssetButton = findViewById(R.id.projectItemViewUploadAssetButton);
 
         projectModel = getIntent().getParcelableExtra("selected_project");
+
+        SharedPreferences prefs = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
+
+        if (prefs.getString("role_id", "").equals("2")) {
+            projectItemViewUploadAssetButton.setVisibility(View.GONE);
+        }
 
         if (projectModel != null) {
             projectItemViewProjectTitle.setText(projectModel.getProjectTitle());
@@ -162,10 +172,11 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                                 catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
-                                loading[0] = true;
-                                if (loading[0] == true && loading[1] == true) {
-                                    progressBar.setVisibility(View.GONE);
-                                }
+                            }
+
+                            loading[0] = true;
+                            if (loading[0] == true && loading[1] == true) {
+                                progressBar.setVisibility(View.GONE);
                             }
 
                             Collections.sort(projectListItemModels, new Comparator<AssetModel>() {
@@ -255,8 +266,42 @@ public class ProjectItemViewActivity extends AppCompatActivity {
             }, "Unable to connect to the database",
                 "Unable to parse API response");
 
-            projectItemViewProjectDescription.setText(projectModel.getProjectDescription());
-            projectItemViewProjectDateChip.setText(projectModel.getDateCreated().format(DateTimeFormatter.ofPattern("LLL. dd, uuuu")));
+            if (projectModel.getProjectDescription() != null && !projectModel.getProjectDescription().isEmpty()) {
+                projectItemViewProjectDescription.setText(projectModel.getProjectDescription());
+            }
+            else {
+                projectItemViewProjectDescription.setText("No description provided.");
+                projectItemViewProjectDescription.setTypeface(null, Typeface.ITALIC);
+            }
+
+            LinearLayout linearLayout6 = findViewById(R.id.linearLayout6);
+
+            projectItemViewProjectStartDateTV.setText(projectModel.getDateCreated().format(DateTimeFormatter.ofPattern("LLL. dd, uuuu")));
+
+            if (projectModel.getDueDate() != null) {
+                projectItemViewProjectDueDateChip.setText("Due " + projectModel.getDueDate().format(DateTimeFormatter.ofPattern("LLL. dd, uuuu")));
+            }
+            else {
+                projectItemViewProjectDueDateChip.setVisibility(View.GONE);
+
+                View lastVisibleChild = null;
+                int childCount = linearLayout6.getChildCount();
+
+                for (int i = childCount-1; i >= 0; i--) {
+                    View child = linearLayout6.getChildAt(i);
+                    if (child.getVisibility() == View.VISIBLE && child instanceof Chip) {
+                        lastVisibleChild = child;
+                        break; // Exit the loop once the last visible child is found
+                    }
+                }
+
+                // Check if we found a last visible child
+                if (lastVisibleChild != null) {
+                    LinearLayout.LayoutParams chipParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    chipParams.setMarginStart(0);
+                    lastVisibleChild.setLayoutParams(chipParams);
+                }
+            }
 
             if (projectModel.getProjectImagePath() != null || !projectModel.getProjectImagePath().isEmpty()) {
                 Glide.with(this)

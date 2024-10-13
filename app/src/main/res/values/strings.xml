@@ -20,4 +20,19 @@
         <item>Name</item>
         <item>Date Created</item>
     </string-array>
+    <string-array name="sort_filter_array">
+        <item>Default</item>
+
+        <item>Name (A-Z)</item>
+        <item>Name (Z-A)</item>
+
+        <item>Date Created (newest first)</item>
+        <item>Date Created (oldest first)</item>
+
+        <item>Due Date (newest first)</item>
+        <item>Due Date (oldest first)</item>
+
+        <item>Date Completed (newest first)</item>
+        <item>Date Completed (oldest first)</item>
+    </string-array>
 </resources>

@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#000000FF</color>
 
+    <color name="colorPrimary2">#E9E9E9</color>
     <color name="colorPrimary">#F1F1F1</color>
     <color name="colorPrimaryLight">#F9F9F9</color>
     <color name="colorOrangePlus">#F44E1C</color>

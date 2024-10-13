@@ -222,6 +222,7 @@ public class OnboardingEmailPasswordFragment extends Fragment {
                                                     prefs.edit().putString("session_id", json.getString("session_id")).commit();
                                                     prefs.edit().putString("email", json.getString("email")).commit();
                                                     prefs.edit().putString("full_name", json.getString("full_name")).commit();
+                                                    prefs.edit().putString("role_id", json.getString("role_id")).commit();
 
 
                                                     bundle.putString("session_id", json.getString("session_id"));
@@ -230,7 +231,9 @@ public class OnboardingEmailPasswordFragment extends Fragment {
                                                     startActivity(intent, bundle);
                                                     getActivity().finish();
                                                 }
-
+                                                else {
+                                                    Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG);
+                                                }
                                             } catch (JSONException e) {
                                                 throw new RuntimeException(e);
                                             }

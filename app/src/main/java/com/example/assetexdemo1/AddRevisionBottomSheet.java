@@ -94,6 +94,8 @@ public class AddRevisionBottomSheet extends BottomSheetDialogFragment {
                                 .fitCenter()
                                 .into(buttonAddRevision);
 
+                            buttonAddRevision.setPadding(0,0,0,0);
+
                             textView22.setVisibility(View.GONE);
                             imageView6.setVisibility(View.GONE);
                         }
