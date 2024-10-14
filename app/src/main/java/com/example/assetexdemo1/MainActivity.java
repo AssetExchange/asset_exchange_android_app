@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     TaskActivity1 taskActivity1 = new TaskActivity1();
     ProjectOverviewFragment projectOverviewFragment = new ProjectOverviewFragment();
     UploadAssetFragment uploadAssetFragment = new UploadAssetFragment();
+
+    ArrayList<Drawable> icons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
+
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+            MenuItem menuItem = bottomNavigationView.getMenu().getItem(i);
+            icons.add(menuItem.getIcon());
+        }
+
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_menu_command);
 
         SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
@@ -55,37 +66,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int[][] states = new int[][] {
-            new int[] { android.R.attr.state_checked}, // state_checked
-            new int[] { }
-        };
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+            MenuItem menuItem = bottomNavigationView.getMenu().getItem(i);
 
-        int[] colors = new int[] {
-            Color.argb(255,0,0,0),
-            Color.argb(255, 150,150,150)
-        };
+            if (menuItem.getItemId() == item.getItemId()) {
+                // Set selected item icon to original color
+                menuItem.setIconTintList(null);
+            }
+            else {
+                menuItem.setIconTintList(ColorStateList.valueOf(Color.parseColor("#969696"))); // Grey color
+            }
+        }
 
-        ColorStateList myColorList = new ColorStateList(states, colors);
-        bottomNavigationView.setItemIconTintList(myColorList);
-        bottomNavigationView.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+//        bottomNavigationView.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
+
+        // item.setIconTintList(null);
 
         if (item.getItemId() == R.id.bottom_nav_menu_command) {
-            item.setIconTintList(null);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) taskActivity1).commit();
             return true;
         }
         if (item.getItemId() == R.id.bottom_nav_menu_folder) {
-            item.setIconTintList(null);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) projectOverviewFragment).commit();
             return true;
         }
         if (item.getItemId() == R.id.bottom_nav_menu_send) {
-            item.setIconTintList(null);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) uploadAssetFragment).commit();
             return true;
         }
         if (item.getItemId() == R.id.bottom_nav_menu_profile) {
-            item.setIconTintList(null);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) profileFragment).commit();
             return true;
         }

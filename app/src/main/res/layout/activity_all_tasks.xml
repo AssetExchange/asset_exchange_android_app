@@ -104,8 +104,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allPriorityTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -121,8 +122,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allTodayTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -139,8 +141,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allScheduledTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -157,16 +160,18 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allMissingTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1">
 
             </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </ScrollView>

@@ -70,222 +70,241 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/searchBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/search_bar"
+                            android:visibility="gone"
+                            app:iconifiedByDefault="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView"
+                            app:layout_constraintVertical_bias="0.026"
+                            app:queryHint="You looking for something?" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/taskAll"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginBottom="14dp"
+                            app:cardBackgroundColor="#F9F9F9"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/imageView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="25dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/all_task" />
+
+                                <TextView
+                                    android:id="@+id/taskAllText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="12dp"
+
+                                    android:text="ALL"
+                                    android:textColor="#6A6A6A"
+                                    android:textSize="30dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+                                <TextView
+                                    android:id="@+id/counterTaskAll"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-25dp"
+                                    android:layout_marginEnd="25dp"
+                                    android:textColor="#C6C6C6"
+                                    android:textSize="70dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.996"
+                                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintVertical_bias="0.247" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/taskCompleted"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginBottom="20dp"
+                            app:cardBackgroundColor="#F9F9F9"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@+id/taskAll">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="25dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/completed_task" />
+
+                                <TextView
+                                    android:id="@+id/taskCompletedText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Completed"
+                                    android:textColor="#6A6A6A"
+                                    android:textSize="30dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+                                <TextView
+                                    android:id="@+id/counterTaskCompleted"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="25dp"
+                                    android:textColor="#C6C6C6"
+                                    android:textSize="70dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="1.0"
+                                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintVertical_bias="0.074" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
+                        <Button
+                            android:id="@+id/btnRemind"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_marginBottom="22dp"
+                            android:backgroundTint="#FF453F"
+                            android:text="Remind"
+                            android:textColor="#FFFFFF"
+                            android:visibility="visible"
+                            app:cornerRadius="10dp"
+                            app:icon="@drawable/ic_plus"
+                            app:iconGravity="textStart"
+                            app:iconSize="30dp" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
-                            <androidx.appcompat.widget.SearchView
-                                android:id="@+id/searchBar"
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:layout_marginBottom="16dp"
-                                android:background="@drawable/search_bar"
-                                android:visibility="gone"
-                                app:iconifiedByDefault="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView"
-                                app:layout_constraintVertical_bias="0.026"
-                                app:queryHint="You looking for something?" />
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/taskAll"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="200dp"
-                                    android:layout_marginBottom="14dp"
-                                    app:cardBackgroundColor="#F9F9F9"
-                                    app:cardCornerRadius="15dp"
-                                    app:cardElevation="0dp">
-
-                                        <androidx.constraintlayout.widget.ConstraintLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-
-                                                <ImageView
-                                                    android:id="@+id/imageView4"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginStart="20dp"
-                                                    android:layout_marginTop="25dp"
-                                                    app:layout_constraintStart_toStartOf="parent"
-                                                    app:layout_constraintTop_toTopOf="parent"
-                                                    app:srcCompat="@drawable/all_task" />
-
-                                                <TextView
-                                                    android:id="@+id/taskAllText"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginStart="20dp"
-                                                    android:layout_marginTop="12dp"
-
-                                                    android:text="ALL"
-                                                    android:textColor="#6A6A6A"
-                                                    android:textSize="30dp"
-                                                    android:textStyle="bold"
-                                                    app:layout_constraintStart_toStartOf="parent"
-                                                    app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-                                                <TextView
-                                                    android:id="@+id/counterTaskAll"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginTop="-25dp"
-                                                    android:layout_marginEnd="25dp"
-                                                    android:textColor="#C6C6C6"
-                                                    android:textSize="70dp"
-                                                    app:layout_constraintBottom_toBottomOf="parent"
-                                                    app:layout_constraintEnd_toEndOf="parent"
-                                                    app:layout_constraintHorizontal_bias="0.996"
-                                                    app:layout_constraintStart_toEndOf="@+id/imageView4"
-                                                    app:layout_constraintTop_toTopOf="parent"
-                                                    app:layout_constraintVertical_bias="0.247" />
-
-                                        </androidx.constraintlayout.widget.ConstraintLayout>
-                                </androidx.cardview.widget.CardView>
-
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/taskCompleted"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="200dp"
-                                    android:layout_marginBottom="14dp"
-                                    app:cardBackgroundColor="#F9F9F9"
-                                    app:cardCornerRadius="15dp"
-                                    app:cardElevation="0dp"
-                                    app:layout_constraintTop_toBottomOf="@+id/taskAll">
-
-                                        <androidx.constraintlayout.widget.ConstraintLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-
-                                                <ImageView
-                                                    android:id="@+id/imageView5"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginStart="20dp"
-                                                    android:layout_marginTop="25dp"
-                                                    app:layout_constraintStart_toStartOf="parent"
-                                                    app:layout_constraintTop_toTopOf="parent"
-                                                    app:srcCompat="@drawable/completed_task" />
-
-                                                <TextView
-                                                    android:id="@+id/taskCompletedText"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginStart="20dp"
-                                                    android:layout_marginTop="12dp"
-                                                    android:fontFamily="@font/roboto_regular"
-                                                    android:text="Completed"
-                                                    android:textColor="#6A6A6A"
-                                                    android:textSize="30dp"
-                                                    android:textStyle="bold"
-                                                    app:layout_constraintStart_toStartOf="parent"
-                                                    app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-                                                <TextView
-                                                    android:id="@+id/counterTaskCompleted"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginEnd="25dp"
-                                                    android:textColor="#C6C6C6"
-                                                    android:textSize="70dp"
-                                                    app:layout_constraintBottom_toBottomOf="parent"
-                                                    app:layout_constraintEnd_toEndOf="parent"
-                                                    app:layout_constraintHorizontal_bias="1.0"
-                                                    app:layout_constraintStart_toEndOf="@+id/imageView5"
-                                                    app:layout_constraintTop_toTopOf="parent"
-                                                    app:layout_constraintVertical_bias="0.074" />
-
-                                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                </androidx.cardview.widget.CardView>
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btnRemind"
-                                        android:layout_width="155dp"
-                                        android:layout_height="55dp"
-                                        android:backgroundTint="#FF453F"
-                                        android:text="Remind"
-                                        android:textColor="#FFFFFF"
-                                        android:visibility="gone"
-                                        app:cornerRadius="10dp"
-                                        app:icon="@drawable/ic_plus"
-                                        app:iconSize="30dp" />
-
-                                        <Space
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1" />
-
-                                    <Button
-                                        android:id="@+id/btnAddList"
-                                        android:layout_width="155dp"
-                                        android:layout_height="55dp"
-                                        android:backgroundTint="#FFB23A"
-                                        android:paddingLeft="40dp"
-                                        android:text="Add List"
-                                        android:textColor="#FFFFFF"
-                                        android:visibility="gone"
-                                        app:cornerRadius="10dp" />
-                                </LinearLayout>
-
-
-                            <TextView
-                                android:id="@+id/textView4"
+                            <Space
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="My List"
-                                android:textColor="#6E6767"
-                                android:textSize="25dp"
-                                android:textStyle="bold"
+                                android:layout_weight="1" />
+
+                            <Button
+                                android:id="@+id/btnAddList"
+                                android:layout_width="155dp"
+                                android:layout_height="55dp"
+                                android:backgroundTint="#FFB23A"
+                                android:paddingLeft="40dp"
+                                android:text="Add List"
+                                android:textColor="#FFFFFF"
                                 android:visibility="gone"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/btnRemind"
-                                app:layout_constraintVertical_bias="0.0" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/reminderList"
-                                android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="10dp"
-                                android:visibility="gone"
-                                app:cardBackgroundColor="#F9F9F9"
-                                app:cardCornerRadius="15dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/mylist_recyclerview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="5dp"
-                                    android:visibility="gone">
-
-
-                                </androidx.recyclerview.widget.RecyclerView>
-                            </androidx.cardview.widget.CardView>
-
-
+                                app:cornerRadius="10dp" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textView47"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Priority"
+                            android:textColor="#4069BB"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/allPriorityTasksRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="44dp"
+                            android:layout_weight="1" />
+
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="My List"
+                            android:textColor="#6E6767"
+                            android:textSize="25dp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/btnRemind"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/reminderList"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:visibility="gone"
+                            app:cardBackgroundColor="#F9F9F9"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/mylist_recyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dp"
+                                android:visibility="gone">
+
+
+                            </androidx.recyclerview.widget.RecyclerView>
+                        </androidx.cardview.widget.CardView>
+
+
+                    </LinearLayout>
                 </ScrollView>
 
             <ProgressBar

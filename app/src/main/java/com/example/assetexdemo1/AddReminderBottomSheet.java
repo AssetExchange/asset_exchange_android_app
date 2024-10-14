@@ -254,9 +254,16 @@ public class AddReminderBottomSheet extends BottomSheetDialogFragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        listener = (BottomSheetListener) context;
+        if (getParentFragment() instanceof BottomSheetListener) {
+            if (getParentFragment().getContext() != null) {
+                super.onAttach(getParentFragment().getContext());
+                listener = (BottomSheetListener) getParentFragment();
+            }
+        }
+        else {
+            super.onAttach(context);
+            listener = (BottomSheetListener) context;
+        }
     }
 
     private void updateData() {
