@@ -128,7 +128,8 @@ public class ProjectAccessFragment extends Fragment {
                                     projectAccessRV.setAdapter(projectAccessAdapter);
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(getContext(), "Unable to fetch project share data", Toast.LENGTH_SHORT).show();
+                                ToastMessage.getInstance(getContext()).showShortMessage("Unable to fetch project share data", "frown");
+                                // Toast.makeText(getContext(), "Unable to fetch project share data", Toast.LENGTH_SHORT).show();
                                 throw new RuntimeException(e);
                             }
 

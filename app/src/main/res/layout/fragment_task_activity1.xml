@@ -121,6 +121,7 @@
                                     android:layout_marginStart="20dp"
                                     android:layout_marginTop="12dp"
 
+                                    android:fontFamily="@font/roboto_regular"
                                     android:text="ALL"
                                     android:textColor="#6A6A6A"
                                     android:textSize="30dp"
@@ -209,7 +210,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:layout_marginBottom="22dp"
-                            android:backgroundTint="#FF453F"
+                            android:backgroundTint="@color/colorOnboardingButtonBackgroundEnabled"
                             android:text="Remind"
                             android:textColor="#FFFFFF"
                             android:visibility="visible"

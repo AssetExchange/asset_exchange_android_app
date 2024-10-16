@@ -206,11 +206,13 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
                         uploadFile(fileUri);
                     }
                     else {
-                        Toast.makeText(getContext(), "No project selected", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(getContext()).showShortMessage("No project selected", "frown");
+                        // Toast.makeText(getContext(), "No project selected", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+                    ToastMessage.getInstance(getContext()).showShortMessage("No file selected", "frown");
                 }
             }
         });
@@ -276,10 +278,14 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
 
                         JSONObject obj = new JSONObject(responseData);
 
-                        Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
 
                         if (obj.getString("code").equals("The asset has been added to the project.")) {
+                            ToastMessage.getInstance(getContext()).showShortMessage(obj.getString("code"), "smile");
                             dismiss();
+                        }
+                        else {
+                            ToastMessage.getInstance(getContext()).showShortMessage(obj.getString("code"), "frown");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -290,10 +296,12 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if (error != null && error.getMessage() != null) {
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        ToastMessage.getInstance(getContext()).showShortMessage("Unable to upload asset", "frown");
                     }
                     else {
-                        Toast.makeText(getContext(), "The asset has been added", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getContext(), "The asset has been added", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(getContext()).showShortMessage("The asset has been added", "smile");
                         Log.e("Got Error", "" + error.getMessage() + error.networkResponse );
                     }
                 }
@@ -343,7 +351,8 @@ public class SendAssetBottomSheet extends BottomSheetDialogFragment {
             }
         }
         catch (Exception e) {
-            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            ToastMessage.getInstance(getContext()).showShortMessage(e.toString(), "frown");
+            // Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 }

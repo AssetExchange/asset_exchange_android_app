@@ -156,7 +156,8 @@ public class AddReminderBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if (newReminderInputTitle.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getContext(), "Missing reminder title", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Missing reminder title", Toast.LENGTH_SHORT).show();
+                    ToastMessage.getInstance(getContext()).showShortMessage("Missing reminder title", "yellow");
                 }
                 else {
                     SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
@@ -178,9 +179,10 @@ public class AddReminderBottomSheet extends BottomSheetDialogFragment {
                         new DBConn.ResponseCallback() {
                             @Override
                             public void innerResponse(Object object) {
-                                Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
+                                // Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
 
                                 if (object.toString().equals("Reminder added successfully.")) {
+                                    ToastMessage.getInstance(getContext()).showLongMessage(object.toString(), "smile");
                                     if (dateTimeSet != null) {
                                         System.out.println(dateTimeSet);
 
@@ -236,6 +238,7 @@ public class AddReminderBottomSheet extends BottomSheetDialogFragment {
                                     updateData();
                                 }
                                 else {
+                                    ToastMessage.getInstance(getContext()).showLongMessage(object.toString(), "frown");
                                     System.out.println(object.toString());
                                 }
                             }

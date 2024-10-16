@@ -213,7 +213,8 @@ public class OnboardingEmailPasswordFragment extends Fragment {
                                             JSONObject json = (JSONObject) object;
                                             try {
                                                 if (json.getString("code").equals("Login successful")) {
-                                                    Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG).show();
+                                                    // Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG).show();
+                                                    ToastMessage.getInstance(getContext()).showLongMessage(json.getString("code"), "smile");
 
                                                     SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
 
@@ -232,7 +233,8 @@ public class OnboardingEmailPasswordFragment extends Fragment {
                                                     getActivity().finish();
                                                 }
                                                 else {
-                                                    Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG);
+                                                    ToastMessage.getInstance(getContext()).showLongMessage(json.getString("code"), "frown");
+                                                    // Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG);
                                                 }
                                             } catch (JSONException e) {
                                                 throw new RuntimeException(e);

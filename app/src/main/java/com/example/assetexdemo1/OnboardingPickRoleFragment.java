@@ -139,7 +139,8 @@ public class OnboardingPickRoleFragment extends Fragment {
                                 @Override
                                 public void innerResponse(Object object) {
                                     String message = (String) object;
-                                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    ToastMessage.getInstance(getContext()).showLongMessage(message, "yellow");
+                                    // Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     navController.navigate(R.id.action_onboardingPickRoleFragment_to_onboardingVerifyEmailFragment, bundle);
                                 }
                             },

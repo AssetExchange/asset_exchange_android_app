@@ -221,7 +221,8 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                             }
                         }
                     } catch (Exception e) {
-                        Toast.makeText(ProjectItemViewActivity.this, "Unable to fetch project data", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(ProjectItemViewActivity.this, "Unable to fetch project data", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(ProjectItemViewActivity.this).showShortMessage("Unable to fetch project data", "frown");
                         throw new RuntimeException(e);
                     }
 
@@ -254,7 +255,9 @@ public class ProjectItemViewActivity extends AppCompatActivity {
                             });
                         }
                     } catch (Exception e) {
-                        Toast.makeText(ProjectItemViewActivity.this, "Unable to fetch project data", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(ProjectItemViewActivity.this, "Unable to fetch project data", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(ProjectItemViewActivity.this).showShortMessage("Unable to fetch project data", "frown");
+
                         throw new RuntimeException(e);
                     }
                     loading[1] = true;

@@ -190,14 +190,16 @@ public class AddRevisionBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if (newRevisionInputDescription.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getContext(), "Missing revision title", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "Missing revision title", Toast.LENGTH_SHORT).show();
+                    ToastMessage.getInstance(getContext()).showShortMessage("Missing revision title", "frown");
                 }
                 else if (assetModel != null) {
                     if (fileUri != null) {
                         uploadFile(fileUri);
                     }
                     else {
-                        Toast.makeText(getContext(), "Missing attached file", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getContext(), "Missing attached file", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(getContext()).showLongMessage("Missing attached file", "frown");
                     }
 
 //                    SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
@@ -230,7 +232,8 @@ public class AddRevisionBottomSheet extends BottomSheetDialogFragment {
 //                    );
                 }
                 else {
-                    Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+                    ToastMessage.getInstance(getContext()).showLongMessage("No file selected", "frown");
                 }
             }
         });
@@ -295,10 +298,14 @@ public class AddRevisionBottomSheet extends BottomSheetDialogFragment {
 
                         JSONObject obj = new JSONObject(responseData);
 
-                        Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
 
                         if (obj.getString("code").equals("Revision added successfully.")) {
+                            ToastMessage.getInstance(getContext()).showLongMessage(obj.getString("code"));
                             dismiss();
+                        }
+                        else {
+                            ToastMessage.getInstance(getContext()).showLongMessage(obj.getString("code"), "frown");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -309,10 +316,12 @@ public class AddRevisionBottomSheet extends BottomSheetDialogFragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if (error != null && error.getMessage() != null) {
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        ToastMessage.getInstance(getContext()).showLongMessage(error.getMessage(), "frown");
                     }
                     else {
-                        Toast.makeText(getContext(), "The revision has been added", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getContext(), "The revision has been added", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(getContext()).showLongMessage("The revision has been added", "smile");
                         Log.e("Got Error", "" + error.getMessage() + error.networkResponse );
                     }
                 }

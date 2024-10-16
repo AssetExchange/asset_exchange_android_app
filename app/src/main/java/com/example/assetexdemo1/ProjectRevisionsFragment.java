@@ -90,7 +90,8 @@ public class ProjectRevisionsFragment extends Fragment {
                                     assetIds.add(assetId);
                                 }
                                 catch (JSONException e) {
-                                    Toast.makeText(getContext(), "Unable to retrieve comments", Toast.LENGTH_LONG).show();
+                                    // Toast.makeText(getContext(), "Unable to retrieve comments", Toast.LENGTH_LONG).show();
+                                   ToastMessage.getInstance(getContext()).showLongMessage("Unable to retrieve comments", "frown");
                                 }
                             }
 
@@ -136,7 +137,8 @@ public class ProjectRevisionsFragment extends Fragment {
                                                 }
                                                 catch (Exception e) {
                                                     System.out.println(e.getMessage());
-                                                    Toast.makeText(getContext(), "Unable to retrieve comments", Toast.LENGTH_SHORT).show();
+                                                    // Toast.makeText(getContext(), "Unable to retrieve comments", Toast.LENGTH_SHORT).show();
+                                                    ToastMessage.getInstance(getContext()).showShortMessage("Unable to retrieve comments", "frown");
                                                 }
                                             }
                                             projectRevisionsAdapter.notifyDataSetChanged();

@@ -51,7 +51,8 @@ public class DBConn {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
+                ToastMessage.getInstance(context).showLongMessage(onErrorString, "frown");
+                // Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
                 System.out.println(error.getMessage());
             }
         });
@@ -76,7 +77,8 @@ public class DBConn {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
+                ToastMessage.getInstance(context).showLongMessage(onErrorString, "frown");
+                // Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -101,7 +103,8 @@ public class DBConn {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
+                ToastMessage.getInstance(context).showLongMessage(onErrorString, "frown");
+                // Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -165,14 +168,17 @@ public class DBConn {
             }
             catch (Exception e) {
                 if (e.getMessage() != null && !e.getMessage().equals("")) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    ToastMessage.getInstance(context).showLongMessage(e.getMessage(), "frown");
+                    // Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                     // Toast.makeText(context, onErrorString + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 else if (onErrorString != null && !onErrorString.equals("")) {
-                    Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
+                    ToastMessage.getInstance(context).showLongMessage(onErrorString, "frown");
+                    // Toast.makeText(context, onErrorString, Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Toast.makeText(context, "Unknown Error", Toast.LENGTH_LONG).show();
+                    ToastMessage.getInstance(context).showLongMessage("Unknown error", "frown");
+                    // Toast.makeText(context, "Unknown Error", Toast.LENGTH_LONG).show();
                 }
                 e.printStackTrace();
             }

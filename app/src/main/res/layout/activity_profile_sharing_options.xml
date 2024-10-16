@@ -81,7 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="36dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView33"
@@ -113,8 +114,10 @@
                 android:id="@+id/profileSharingOptionsShareLinkLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/textView39"
@@ -131,23 +134,34 @@
 
                     <TextView
                         android:id="@+id/profileSharingOptionsShareLinkText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
                         android:linksClickable="true"
-                        android:text="https://assetexchange.com/share/ABCDEF"
-                        android:textColorLink="#FF9800" />
+                        android:singleLine="false"
+                        android:text="https://assetexchange.com/share/ABCDEFsdfsdfsdfsdfsdf"
+                        android:textColor="@color/colorOnboardingButtonBackgroundEnabled" />
 
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <ImageView
-                        android:id="@+id/imageView17"
+                    <ImageButton
+                        android:id="@+id/profileSharingOptionsShareLinkCopyButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/transparent"
                         app:srcCompat="@drawable/ic_link" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/profileSharingOptionsShareLinkQRView"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:background="@color/transparent"
+                    app:srcCompat="@drawable/add_asset_icon" />
+
             </LinearLayout>
 
             <Space

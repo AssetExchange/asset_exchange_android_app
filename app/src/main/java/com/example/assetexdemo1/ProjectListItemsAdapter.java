@@ -210,7 +210,8 @@ public class ProjectListItemsAdapter extends RecyclerView.Adapter<ProjectListIte
                                             DBConn.postRequest(DBConn.getURL("delete_asset.php"), context, params, new DBConn.ResponseCallback() {
                                                     @Override
                                                     public void innerResponse(Object object) {
-                                                        Toast.makeText(context, object.toString(), Toast.LENGTH_LONG).show();
+                                                        ToastMessage.getInstance(context).showLongMessage(object.toString(), "yellow");
+                                                        // Toast.makeText(context, object.toString(), Toast.LENGTH_LONG).show();
                                                     }
                                                 },
                                                 "Unable to connect to the database",

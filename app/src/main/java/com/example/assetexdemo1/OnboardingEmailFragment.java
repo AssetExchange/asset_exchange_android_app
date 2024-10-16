@@ -167,7 +167,8 @@ public class OnboardingEmailFragment extends Fragment {
                                                 navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingEmailPasswordFragment, bundle);
                                             }
                                             else {
-                                                Toast.makeText(getContext(), "Creating new account...", Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(getContext(), "Creating new account...", Toast.LENGTH_SHORT).show();
+                                                ToastMessage.getInstance(getContext()).showLongMessage("Creating new account...", "yellow");
                                                 navController.navigate(R.id.action_onboardingEmailFragment_to_onboardingFullNameFragment, bundle);
                                             }
                                         }

@@ -173,7 +173,8 @@ public class AssetRevisionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (assetRevisionAddCommentEditText.getText().toString().trim().isEmpty()) {
-                        Toast.makeText(AssetRevisionActivity.this, "Please add a comment", Toast.LENGTH_LONG).show();
+                        // Toast.makeText(AssetRevisionActivity.this, "Please add a comment", Toast.LENGTH_LONG).show();
+                        ToastMessage.getInstance(AssetRevisionActivity.this).showLongMessage("Please add a comment", "frown");
                     }
                     else {
                         SharedPreferences sharedPref = AssetExchangeApp.context.getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
@@ -192,7 +193,8 @@ public class AssetRevisionActivity extends AppCompatActivity {
                             new DBConn.ResponseCallback() {
                                 @Override
                                 public void innerResponse(Object object) {
-                                    Toast.makeText(AssetRevisionActivity.this, object.toString(), Toast.LENGTH_SHORT).show();
+                                    ToastMessage.getInstance(AssetRevisionActivity.this).showLongMessage(object.toString(), "yellow");
+                                    // Toast.makeText(AssetRevisionActivity.this, object.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             },
                         "Unable to connect to the database",
@@ -334,7 +336,8 @@ public class AssetRevisionActivity extends AppCompatActivity {
                             assetRevisionRV.setAdapter(assetRevisionVersionHistoryAdapter);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(AssetRevisionActivity.this, "Unable to fetch version history data", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(AssetRevisionActivity.this).showShortMessage("Unable to fetch version history data", "frown");
+                        // Toast.makeText(AssetRevisionActivity.this, "Unable to fetch version history data", Toast.LENGTH_SHORT).show();
                         throw new RuntimeException(e);
                     }
                 }

@@ -316,7 +316,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     uploadFile(fileUri);
                 }
                 else {
-                    Toast.makeText(getContext(), "Invalid share email", Toast.LENGTH_SHORT).show();
+                    ToastMessage.getInstance(getContext()).showShortMessage("Invalid share email", "frown");
                 }
             }
         });
@@ -395,9 +395,10 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
                             JSONObject obj = new JSONObject(responseData);
 
-                            Toast.makeText(getContext(), obj.getString("code"), Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getContext(), , Toast.LENGTH_SHORT).show();
 
                             if (obj.getString("code").equals("Project added successfully.") || obj.getString("code").equals("Project added and shared successfully.")) {
+                                ToastMessage.getInstance(getContext()).showLongMessage(obj.getString("code"), "smile");
 //                                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
 //                                .setSmallIcon(R.drawable.logo)
 //                                .setContentTitle("My notification")
@@ -420,6 +421,9 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
 
                                 dismiss();
                             }
+                            else {
+                                ToastMessage.getInstance(getContext()).showLongMessage(obj.getString("code"), "yellow");
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -430,11 +434,13 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error != null && error.getMessage() != null) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                            // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                            ToastMessage.getInstance(getContext()).showLongMessage(error.getMessage(), "frown");
                             Log.e("Got Error", "" + error.getMessage());
                         }
                         else {
-                            Toast.makeText(getContext(), "An error occurred while creating your project. Please try again.", Toast.LENGTH_LONG).show();
+                            ToastMessage.getInstance(getContext()).showLongMessage("An error occurred while creating your project. Please try again.", "frown");
+                            // Toast.makeText(getContext(), "An error occurred while creating your project. Please try again.", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -491,10 +497,15 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
                     @Override
                     public void innerResponse(Object object) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getContext(), object.toString(), Toast.LENGTH_LONG).show();
 
                         if (object.toString().equals("Project added successfully.") || object.toString().equals("Project added and shared successfully.")) {
+                            ToastMessage.getInstance(getContext()).showLongMessage(object.toString(), "smile");
                             addNotification();
+                            dismiss();
+                        }
+                        else {
+                            ToastMessage.getInstance(getContext()).showLongMessage(object.toString(), "yellow");
                             dismiss();
                         }
 

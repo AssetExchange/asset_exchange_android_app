@@ -55,6 +55,8 @@ public class ProfileFragment extends Fragment {
     ProgressBar progressBar;
     TextView profileFragmentFullName, profileFragmentEmailAddress;
 
+    UserModel userModel;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -116,56 +118,70 @@ public class ProfileFragment extends Fragment {
             progressBar = getView().findViewById(R.id.progressBar4);
             progressBar.setVisibility(View.GONE);
 
+            progressBar.setVisibility(View.VISIBLE);
+            DBConn.getRequest(
+                DBConn.getRecordURL("users/" + sharedPref.getString("user_id", "1")),
+                getContext(),
+                new DBConn.ResponseCallback() {
+                    @Override
+                    public void innerResponse(Object object) {
+                        if (object instanceof JSONObject) {
+                            try {
+                                JSONObject jsonObject = (JSONObject) object;
+
+                                if (!jsonObject.has("code")) {
+                                    progressBar.setVisibility(View.GONE);
+
+                                    userModel = new UserModel(
+                                        jsonObject.getInt("user_id"),
+                                        jsonObject.getString("email"),
+                                        jsonObject.getString("full_name"),
+                                        jsonObject.getInt("role_id"),
+                                        jsonObject.isNull("profile_pic_path") ? null : jsonObject.getString("profile_pic_path")
+                                    );
+                                }
+                                else {
+                                    progressBar.setVisibility(View.GONE);
+                                    ToastMessage.getInstance(getContext()).showShortMessage("Cannot get user profile", "frown");
+                                }
+
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                },
+                "Unable to connect to the database",
+                "Unable to parse API response"
+            );
+
             profileUserProfileContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     progressBar.setVisibility(View.VISIBLE);
-                    DBConn.getRequest(
-                        DBConn.getRecordURL("users/" + sharedPref.getString("user_id", "1")),
-                        getContext(),
-                        new DBConn.ResponseCallback() {
-                            @Override
-                            public void innerResponse(Object object) {
-                                if (object instanceof JSONObject) {
-                                    try {
-                                        JSONObject jsonObject = (JSONObject) object;
 
-                                        if (!jsonObject.has("code")) {
-                                            progressBar.setVisibility(View.GONE);
-
-                                            UserModel userModel = new UserModel(
-                                                jsonObject.getInt("user_id"),
-                                                jsonObject.getString("email"),
-                                                jsonObject.getString("full_name"),
-                                                jsonObject.getInt("role_id"),
-                                                jsonObject.isNull("profile_pic_path") ? null : jsonObject.getString("profile_pic_path")
-                                            );
-
-                                            Intent intent = new Intent(getActivity(), ProfileViewerActivity.class);
-                                            intent.putExtra("user_model", userModel);
-                                            startActivity(intent);
-                                        }
-                                        else {
-                                            Toast.makeText(getContext(), "Cannot get user profile", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    } catch (JSONException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                            }
-                        },
-                        "Unable to connect to the database",
-                        "Unable to parse API response"
-                    );
+                    if (userModel != null) {
+                        Intent intent = new Intent(getActivity(), ProfileViewerActivity.class);
+                        intent.putExtra("user_model", userModel);
+                        startActivity(intent);
+                    }
+                    else {
+                        ToastMessage.getInstance(getContext()).showShortMessage("Cannot get user profile", "frown");
+                    }
                 }
             });
 
             profileFragmentShareProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), ProfileSharingOptionsActivity.class);
-                    startActivity(intent);
+                    if (userModel != null) {
+                        Intent intent = new Intent(getActivity(), ProfileSharingOptionsActivity.class);
+                        intent.putExtra("user_model", userModel);
+                        startActivity(intent);
+                    }
+                    else {
+                        ToastMessage.getInstance(getContext()).showShortMessage("Cannot get user profile", "frown");
+                    }
                 }
             });
 
@@ -212,7 +228,9 @@ public class ProfileFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), OnboardingActivity.class);
                                 startActivity(intent);
 
-                                Toast.makeText(getActivity().getApplicationContext(), "You have successfully logged out", Toast.LENGTH_SHORT).show();
+                                ToastMessage.getInstance(getActivity().getApplicationContext()).showLongMessage("You have successfully logged out", "smile");
+
+                                // Toast.makeText(getActivity().getApplicationContext(), "You have successfully logged out", Toast.LENGTH_SHORT).show();
 
                                 getActivity().finish();
                             }

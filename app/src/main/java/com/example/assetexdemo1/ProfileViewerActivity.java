@@ -180,7 +180,8 @@ public class ProfileViewerActivity extends AppCompatActivity {
                         profileViewerSaveChangesButton.setVisibility(View.GONE);
                     }
                     else {
-                        Toast.makeText(ProfileViewerActivity.this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
+                        ToastMessage.getInstance(ProfileViewerActivity.this).showShortMessage("Name cannot be blank", "frown");
+                        // Toast.makeText(ProfileViewerActivity.this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
                     }
 
                 }

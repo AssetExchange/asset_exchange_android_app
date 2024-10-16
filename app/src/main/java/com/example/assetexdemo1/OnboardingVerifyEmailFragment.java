@@ -133,7 +133,8 @@ public class OnboardingVerifyEmailFragment extends Fragment {
                                             JSONObject json = (JSONObject) object;
                                             try {
                                                 if (json.getString("code").equals("Email is now verified")) {
-                                                    Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG).show();
+                                                    // Toast.makeText(getContext(), json.getString("code"), Toast.LENGTH_LONG).show();
+                                                    ToastMessage.getInstance(getContext()).showLongMessage(json.getString("code"), "smile");
 
                                                     SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.pref_key_file), Context.MODE_PRIVATE);
 
@@ -163,7 +164,8 @@ public class OnboardingVerifyEmailFragment extends Fragment {
 
                     }
                     else {
-                        Toast.makeText(getContext(), "Invalid number of digits in code", Toast.LENGTH_LONG).show();
+                        ToastMessage.getInstance(getContext()).showLongMessage("Invalid number of digits in code", "frown");
+                        // Toast.makeText(getContext(), "Invalid number of digits in code", Toast.LENGTH_LONG).show();
                     }
                 }
             });

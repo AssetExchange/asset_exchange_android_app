@@ -108,20 +108,7 @@ public class TaskActivity1 extends Fragment implements AddReminderBottomSheet.Bo
         btnRemind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Snackbar snackbar = Snackbar.make(getContext(), getActivity().getWindow().getDecorView(), "test", BaseTransientBottomBar.LENGTH_SHORT);
-//                snackbar.setBackgroundTint(getResources().getColor(R.color.colorOnboardingPasswordHintGreen));
-//                snackbar.setTextColor(getResources().getColor(R.color.black));
-//
-//                TextView a = (TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-//                a.setTypeface(null, Typeface.BOLD);
-//                a.setCompoundDrawablesWithIntrinsicBounds(R.drawable.logo, 0, 0, 0);
-//
-//
-//                snackbar.getView().bringToFront();
-//                snackbar.show();
-
-                ToastMessage a = ToastMessage.getInstance(getContext());
-                a.showLongMessage("aaaa", "frown");
+                ToastMessage.getInstance(getContext()).showLongMessage("aaaa", "frown");
 
                 AddReminderBottomSheet bottomSheet = new AddReminderBottomSheet();
                 bottomSheet.show(getChildFragmentManager(), bottomSheet.getTag());

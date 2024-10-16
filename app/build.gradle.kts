@@ -53,4 +53,6 @@ dependencies {
     implementation("com.otaliastudios:zoomlayout:1.9.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("me.xdrop:fuzzywuzzy:1.4.0")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.4.1")
 }

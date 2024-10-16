@@ -86,7 +86,9 @@ public class MiscUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(context, "No application found which can open the file", Toast.LENGTH_SHORT).show();
+            ToastMessage.getInstance(context).showShortMessage("No application found which can open the file", "frown");
+
+            // Toast.makeText(context, "No application found which can open the file", Toast.LENGTH_SHORT).show();
         }
     }
 
