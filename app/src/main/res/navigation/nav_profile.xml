@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/onboardingEmailFragment2"
-        android:name="com.example.assetexdemo1.OnboardingEmailFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingEmailFragment"
         android:label="fragment_onboarding_email"
         tools:layout="@layout/fragment_onboarding_email" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.assetexdemo1.ProfileFragment"
+        android:name="com.example.assetexdemo1.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action

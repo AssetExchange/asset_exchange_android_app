@@ -7,7 +7,7 @@
     android:background="#EAEAEA"
     android:orientation="vertical"
     android:padding="0dp"
-    tools:context=".CompletedTasks">
+    tools:context=".activity.CompletedTasks">
 
 
     <ProgressBar

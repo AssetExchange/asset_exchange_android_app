@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskActivity1">
+    tools:context=".fragment.TaskActivity1">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_task_activity1"
             android:layout_width="match_parent"

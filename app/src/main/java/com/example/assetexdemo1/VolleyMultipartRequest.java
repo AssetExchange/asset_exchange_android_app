@@ -1,6 +1,7 @@
 package com.example.assetexdemo1;
 
 // VolleyMultipartRequest.java
+// Based from
 // https://www.maxester.com/blog/2019/10/04/upload-file-image-to-the-server-using-volley-in-android/
 
 import com.android.volley.AuthFailureError;
@@ -189,7 +190,7 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
         dataOutputStream.writeBytes(lineEnd);
     }
 
-    class DataPart {
+    public class DataPart {
         private String fileName;
         private byte[] content;
         private String type;
@@ -197,20 +198,20 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
         public DataPart() {
         }
 
-        DataPart(String name, byte[] data) {
+        public DataPart(String name, byte[] data) {
             fileName = name;
             content = data;
         }
 
-        String getFileName() {
+        public String getFileName() {
             return fileName;
         }
 
-        byte[] getContent() {
+        public byte[] getContent() {
             return content;
         }
 
-        String getType() {
+        public String getType() {
             return type;
         }
 

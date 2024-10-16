@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/onboardingEmailFragment"
-        android:name="com.example.assetexdemo1.OnboardingEmailFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingEmailFragment"
         android:label="fragment_onboarding_email"
         tools:layout="@layout/fragment_onboarding_email" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingEmailPasswordFragment"
-        android:name="com.example.assetexdemo1.OnboardingEmailPasswordFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingEmailPasswordFragment"
         android:label="fragment_onboarding_email_password"
         tools:layout="@layout/fragment_onboarding_email_password" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingFullNameFragment"
-        android:name="com.example.assetexdemo1.OnboardingFullNameFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingFullNameFragment"
         android:label="fragment_onboarding_full_name"
         tools:layout="@layout/fragment_onboarding_full_name" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingSignupPasswordFragment"
-        android:name="com.example.assetexdemo1.OnboardingSignupPasswordFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingSignupPasswordFragment"
         android:label="fragment_onboarding_signup_password"
         tools:layout="@layout/fragment_onboarding_signup_password" >
         <action
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingPickRoleFragment"
-        android:name="com.example.assetexdemo1.OnboardingPickRoleFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingPickRoleFragment"
         android:label="fragment_onboarding_pick_role"
         tools:layout="@layout/fragment_onboarding_pick_role" >
         <action
@@ -62,12 +62,12 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingNotificationFragment"
-        android:name="com.example.assetexdemo1.OnboardingNotificationFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingNotificationFragment"
         android:label="fragment_onboarding_notification"
         tools:layout="@layout/fragment_onboarding_notification" />
     <fragment
         android:id="@+id/onboardingVerifyEmailFragment"
-        android:name="com.example.assetexdemo1.OnboardingVerifyEmailFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingVerifyEmailFragment"
         android:label="fragment_onboarding_verify_email"
         tools:layout="@layout/fragment_onboarding_verify_email" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingTermsFragment"
-        android:name="com.example.assetexdemo1.OnboardingTermsFragment"
+        android:name="com.example.assetexdemo1.onboarding.OnboardingTermsFragment"
         android:label="fragment_onboarding_terms"
         tools:layout="@layout/fragment_onboarding_terms" />
 </navigation>

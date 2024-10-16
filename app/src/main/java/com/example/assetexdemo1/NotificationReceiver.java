@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
+import com.example.assetexdemo1.activity.MainActivity;
+
 public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -31,41 +31,41 @@
         <receiver android:name=".NotificationReceiver" />
 
         <activity
-            android:name=".ProfileSharingOptionsActivity"
+            android:name=".activity.ProfileSharingOptionsActivity"
             android:exported="false" />
         <activity
-            android:name=".AssetRevisionActivity"
+            android:name=".activity.AssetRevisionActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ProjectBasedActivityViewActivity"
+            android:name=".activity.ProjectBasedActivityViewActivity"
             android:exported="false" />
         <activity
-            android:name=".ProjectItemViewActivity"
+            android:name=".activity.ProjectItemViewActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileViewerActivity"
+            android:name=".activity.ProfileViewerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectProjectFromAssetActivity"
+            android:name=".activity.SelectProjectFromAssetActivity"
             android:exported="false" />
         <activity
-            android:name=".CompletedTasks"
+            android:name=".activity.CompletedTasks"
             android:exported="false" />
         <activity
-            android:name=".AllTasks"
+            android:name=".activity.AllTasks"
             android:exported="false" />
         <activity
-            android:name=".ScreenSlidePagesActivity"
+            android:name=".activity.ScreenSlidePagesActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".activity.OnboardingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".activity.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -85,7 +85,7 @@
         </activity>
         -->
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
